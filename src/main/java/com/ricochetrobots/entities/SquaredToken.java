@@ -1,4 +1,4 @@
 package com.ricochetrobots.entities;
 
-public class SquaredToken {
+public class SquaredToken extends Token {
 }
