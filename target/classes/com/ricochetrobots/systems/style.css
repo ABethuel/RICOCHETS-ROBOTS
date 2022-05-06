@@ -1,0 +1,8 @@
+.background {
+    -fx-background-image:url('../../../assets/B5.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: 1000px 600px;
+
+}
+

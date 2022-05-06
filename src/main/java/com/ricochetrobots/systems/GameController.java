@@ -11,7 +11,7 @@ import org.controlsfx.control.spreadsheet.Grid;
 import java.io.File;
 import java.io.InputStream;
 
-public class StartController {
+public class GameController {
     @FXML
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
@@ -31,8 +31,10 @@ public class StartController {
                 int finalI = i;
                 int finalJ = j;
 
-                board[i][j] = pane;
-                gridPane.add(pane,i,j);
+                if((i != 8 && i != 7) || (j != 7 && j != 8)){
+                    this.board[i][j] = pane;
+                    this.gridPane.add(pane, i, j);
+                }
             }
         }
     }
