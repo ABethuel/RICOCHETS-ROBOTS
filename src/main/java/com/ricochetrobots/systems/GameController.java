@@ -1,5 +1,7 @@
 package com.ricochetrobots.systems;
 
+import com.ricochetrobots.components.ColorRobot;
+import com.ricochetrobots.entities.Robot;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -37,5 +39,17 @@ public class GameController {
                 }
             }
         }
+
+        addRobotToBoard(ColorRobot.RED);
+        addRobotToBoard(ColorRobot.GREEN);
+        addRobotToBoard(ColorRobot.BLUE);
+        addRobotToBoard(ColorRobot.YELLOW);
+    }
+
+    public void addRobotToBoard(ColorRobot color){
+        Robot robot = new Robot(color);
+        ImageView imgRobot = new ImageView(new Image(urlImage + robot.getImageSignature() + ".png", 35, 35, false, true));
+        gridPane.add(imgRobot, robot.getCol(), robot.getLig());
+
     }
 }
