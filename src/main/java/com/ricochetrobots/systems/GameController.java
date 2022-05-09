@@ -76,14 +76,13 @@ public class GameController {
         }
     }
 
-    public void setPossibleMove(Position pos, boolean hasPiece) {
+    public void setPossibleMove(Position pos) {
         Pane pane = board[pos.getX()][pos.getY()];
-        //Color color = hasPiece ? new Color(.96, .431, .431, 1) : new Color(.431, .764, .96, 1);
-        //pane.setBackground(new Background(new BackgroundFill(color, null, null)));
-        ImageView imgCell = (ImageView) pane.getChildren().get(0);
-        imgCell.setImage(null);
-    }
 
+        ImageView imgCell = (ImageView) pane.getChildren().get(0);
+        imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false));
+        imgCell.setOpacity(0.4);
+    }
 
     public void clearPossibleMoves() {
         for (int i = 0; i < 16; i++) {
@@ -92,6 +91,7 @@ public class GameController {
                 if (pane != null) {
                     ImageView imgCell = (ImageView) pane.getChildren().get(0);
                     imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false));
+                    imgCell.setOpacity(1.0);
                 }
             }
         }

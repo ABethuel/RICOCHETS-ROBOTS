@@ -27,15 +27,6 @@ public class Game {
         return isInBoard(new Position(x, y));
     }
 
-    public boolean hasPieceAt(int x, int y) {
-        if (isInBoard(x, y))
-            return board[x][y] != null;
-        else return false;
-    }
-    public boolean hasPieceAt(Position position) {
-        return hasPieceAt(position.getX(), position.getY());
-    }
-
     // Quand on clique sur le tableau de jeu
     public void onBoardClick(int x, int y) {
         if (board[x][y] != null){
@@ -46,15 +37,13 @@ public class Game {
 
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
     public void onRobotClick(int x, int y, Robot[][] robots){
-        System.out.println("Board x = " + x + "  y = " + y);
+        System.out.println("Board x = " + y + "  y = " + x);
         if (robots[y][x] != null){
             System.out.println("Il y a un robot ici");
             Robot robot = robots[y][x];
-            possibleMoves = robot.getPossibleMoves();
+            possibleMoves = robot.getPossibleMoves(this, robots);
             update(robots);
-            for (Position p : possibleMoves) {
-                System.out.println("possible moves  x : " + p.getY() + "  y : " + p.getX());
-            }
+            System.out.println();
         }
     }
 
@@ -73,20 +62,20 @@ public class Game {
         if (possibleMoves != null) {
             gameController.clearPossibleMoves();
             for (Position p : possibleMoves) {
-                gameController.setPossibleMove(p, hasPieceAt(p));
+                gameController.setPossibleMove(p);
             }
         }
     }
 
-    public boolean hasObstacleAt(int x, int y) {
+    public boolean hasObstacleAt(int x, int y, Robot[][] robots) {
         if (isInBoard(x, y)){
-            return board[x][y] != null;
+            System.out.println("Obstacle x = " + x + "  y = " + y);
+            return robots[y][x] != null;
         }
         else return false;
     }
 
-    public boolean hasObstacleAt(Position position) {
-        return hasObstacleAt(position.getX(), position.getY());
-    }
+
+
 
 }

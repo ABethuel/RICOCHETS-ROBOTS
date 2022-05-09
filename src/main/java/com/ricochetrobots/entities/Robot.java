@@ -4,6 +4,7 @@ import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -60,28 +61,61 @@ public class Robot {
     }
 
     // On définit les zones où peuvent se déplacer les robots
-    public List<Position> getPossibleMoves() {
+    public List<Position> getPossibleMoves(Game game, Robot[][] robots) {
         List<Position> moves = new ArrayList<>();
         int x = getLig();
         int y = getCol();
+
+        for (int i = 0 ; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                if (robots[i][j] != null){
+                    System.out.println("Obstacle x = " + i + "  y = " + j);
+                }
+            }
+        }
+
         for (int i = x + 1; i < 16; i++) {
-            moves.add(new Position(i, y));
-            /*if (!game.hasObstacleAt(i, y)){
-                moves.add(new Position(i, y));
+
+            if (robots[i][y] == null){
+                if ((y == 7 || y == 8) && (x <= 6)){
+                    moves.add(new Position(6, y));
+                }else{
+                    moves.add(new Position(15, y));
+                }
+                System.out.println("no obstacle");
             }else{
+                System.out.println("même ligne qu'un robot mon reuf");
+                moves.add(new Position(i - 1 , y));
+                Position position = new Position(15, y);
+                if (moves.contains(position)){
+                    moves.remove(position);
+                }
                 break;
-            }*/
+            }
+
         }
         for (int i = x - 1; i >= 0; i--) {
-            moves.add(new Position(i, y));
+            if ((y == 7 || y == 8) && (x >= 9 )){
+                moves.add(new Position(9, y));
+            }else{
+                moves.add(new Position(0, y));
+            }
         }
 
         for (int j = y + 1; j < 16; j++) {
-            moves.add(new Position(x, j));
+            if ((x == 7 || x == 8) && (y <= 6)){
+                moves.add(new Position(x, 6));
+            }else{
+                moves.add(new Position(x, 15));
+            }
         }
 
         for (int j = y - 1; j >= 0; j--) {
-            moves.add(new Position(x, j));
+            if ((x == 7 || x == 8) && (y >= 9)){
+                moves.add(new Position(x, 9));
+            }else{
+                moves.add(new Position(x, 0));
+            }
         }
         return moves;
     }
