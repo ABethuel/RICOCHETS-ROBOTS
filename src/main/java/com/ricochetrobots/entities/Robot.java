@@ -35,18 +35,6 @@ public class Robot {
         return hasMoved;
     }
 
-    // On définit la position du robot
-    public void setPosition(int col, int lig) {
-        // Si les positions aléatoires donnent le robot au centre on refait le tirage
-        while (( lig == 7 && col == 7 ) || (lig == 7 && col == 8) || (lig == 8 && col == 7) || (lig == 8 && col == 8)){
-            Random random = new Random();
-            col = random.nextInt(16);
-            lig = random.nextInt(16);
-        }
-        this.col = col;
-        this.lig = lig;
-    }
-
     public int getCol() {
         return col;
     }
@@ -59,11 +47,23 @@ public class Robot {
         return color;
     }
 
+    // On définit la position du robot
+    public void setPosition(int lig, int col) {
+        // Si les positions aléatoires donnent le robot au centre on refait le tirage
+        while (( lig == 7 && col == 7 ) || (lig == 7 && col == 8) || (lig == 8 && col == 7) || (lig == 8 && col == 8)){
+            Random random = new Random();
+            lig = random.nextInt(16);
+            col = random.nextInt(16);
+        }
+        this.lig = lig;
+        this.col = col;
+    }
+
     // On définit les zones où peuvent se déplacer les robots
-    public List<Position> getPossibleMoves(Position position, Game game) {
+    public List<Position> getPossibleMoves() {
         List<Position> moves = new ArrayList<>();
-        int x = position.getX();
-        int y = position.getY();
+        int x = getLig();
+        int y = getCol();
         for (int i = x + 1; i < 16; i++) {
             moves.add(new Position(i, y));
             /*if (!game.hasObstacleAt(i, y)){
@@ -72,17 +72,16 @@ public class Robot {
                 break;
             }*/
         }
-
         for (int i = x - 1; i >= 0; i--) {
             moves.add(new Position(i, y));
         }
 
         for (int j = y + 1; j < 16; j++) {
-            moves.add(new Position(j, y));
+            moves.add(new Position(x, j));
         }
 
         for (int j = y - 1; j >= 0; j--) {
-            moves.add(new Position(j, y));
+            moves.add(new Position(x, j));
         }
         return moves;
     }
