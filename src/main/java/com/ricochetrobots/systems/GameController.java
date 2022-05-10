@@ -38,6 +38,7 @@ public class GameController {
                 int finalI = i;
                 int finalJ = j;
 
+                // Si l'on est pas dans l'axe du tableau, on affiche les cellules
                 if((i != 8 && i != 7) || (j != 7 && j != 8)){
                     this.board[i][j] = pane;
                     this.gridPane.add(pane, i, j);
@@ -46,29 +47,28 @@ public class GameController {
             }
         }
 
+        // On ajoute les robots
         addRobotToBoard(ColorRobot.RED);
         addRobotToBoard(ColorRobot.GREEN);
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
     }
 
-    // On ajoute les robots dans le tableau à l'initialisation
+    // Méthode pour ajouter les robots sur le plateau
     public void addRobotToBoard(ColorRobot color){
         Robot robot = new Robot(color);
         this.robots[robot.getLig()][robot.getCol()] = robot;
         setRobot(robot.getLig(), robot.getCol(), robot);
-        /*ImageView imgRobot = new ImageView(new Image(urlImage + robot.getImageSignature() + ".png", 35, 35, false, true));
-        gridPane.add(imgRobot, robot.getCol(), robot.getLig());
-        imgRobot.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(robot.getLig(), robot.getCol(), this.robots));*/
     }
 
-    // On met à jour
+    // On définit le robot
     public void setRobot(int x, int y, Robot robot) {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
         imageRobot.setImage(new Image(urlImage + robot.getImageSignature() + ".png", 35, 35, false, true));
         //imageRobot.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(y, x, this.robots));
     }
 
+    // S'il n'y a pas de robot, on l'efface
     public void clearPiece(int x, int y, Robot robot) {
         if (board[x][y] != null) {
             ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
@@ -76,6 +76,7 @@ public class GameController {
         }
     }
 
+    // On affiche les mouvements possibles du robot sur le tableau
     public void setPossibleMove(Position pos) {
         Pane pane = board[pos.getX()][pos.getY()];
 
@@ -84,6 +85,7 @@ public class GameController {
         imgCell.setOpacity(0.4);
     }
 
+    // On "nettoie" les mouvements du robot
     public void clearPossibleMoves() {
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {

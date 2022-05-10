@@ -27,14 +27,6 @@ public class Game {
         return isInBoard(new Position(x, y));
     }
 
-    // Quand on clique sur le tableau de jeu
-    public void onBoardClick(int x, int y) {
-        if (board[x][y] != null){
-            System.out.println("Y a un robot là fraté");
-        }
-        System.out.println("Board x = " + x + "  y = " + y);
-    }
-
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
     public void onRobotClick(int x, int y, Robot[][] robots){
         System.out.println("Board x = " + y + "  y = " + x);
@@ -43,7 +35,6 @@ public class Game {
             Robot robot = robots[y][x];
             possibleMoves = robot.getPossibleMoves(this, robots);
             update(robots);
-            System.out.println();
         }
     }
 
@@ -74,8 +65,4 @@ public class Game {
         }
         else return false;
     }
-
-
-
-
 }
