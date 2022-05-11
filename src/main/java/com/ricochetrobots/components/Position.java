@@ -12,13 +12,13 @@ public class Position {
         this.y = y;
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Position position)) return false;
         return getX() == position.getX() && getY() == position.getY();
     }
-
+*/
     @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
