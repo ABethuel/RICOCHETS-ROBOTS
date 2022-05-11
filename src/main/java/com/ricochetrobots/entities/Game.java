@@ -40,11 +40,12 @@ public class Game {
             possibleMoves = robot.getPossibleMoves(this, robots);
             selectedPiece = new Position(x, y);
             update(robots);
-
+            System.out.println(robot.getLig() + " test " + robot.getCol());
         }else if (selectedPiece != null /*&& possibleMoves.contains(containedPosition)*/){
             for (Position p : possibleMoves){
                 if (p.getX() == containedPosition.getY() && p.getY() == containedPosition.getX()){
                     movePiece(selectedPiece, new Position(x, y), robots);
+
                     selectedPiece = null;
                 }
             }
@@ -94,6 +95,7 @@ public class Game {
         robots[to.getY()][to.getX()] = robots[from.getY()][from.getX()];
         robots[from.getY()][from.getX()] = null;
         robots[to.getY()][to.getX()].moved();
+        robots[to.getY()][to.getX()].setPosition(to.getY(), to.getX());
         update(robots);
         gameController.clearPossibleMoves();
     }
