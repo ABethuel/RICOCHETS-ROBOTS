@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ public class GameController {
     private Game game = new Game(this);
     @FXML
     public void initialize() {
+
         // On affiche les cellule sur le plateau de jeu
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
