@@ -1,9 +1,11 @@
 package com.ricochetrobots.systems;
 
 import com.ricochetrobots.components.ColorRobot;
+import com.ricochetrobots.components.Pattern;
 import com.ricochetrobots.components.Position;
 import com.ricochetrobots.entities.Game;
 import com.ricochetrobots.entities.Robot;
+import com.ricochetrobots.entities.Token;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,7 @@ public class GameController {
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
     private Robot[][] robots = new Robot[16][16];
+    private Token[][] tokens = new Token[16][16];
     private List<Position> possibleMoves;
 
     public String urlImage = "file:assets/";
@@ -31,10 +34,12 @@ public class GameController {
                 Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false);
                 ImageView image = new ImageView(imageCell);
                 ImageView imageRobot = new ImageView();
+                ImageView imageToken = new ImageView();
 
                 Pane pane = new Pane() ;
                 pane.getChildren().add(image);
                 pane.getChildren().add(imageRobot);
+                pane.getChildren().add(imageToken);
 
                 int finalI = i;
                 int finalJ = j;
@@ -53,6 +58,8 @@ public class GameController {
         addRobotToBoard(ColorRobot.GREEN);
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
+
+        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 3, 4);
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -98,5 +105,16 @@ public class GameController {
                 }
             }
         }
+    }
+
+    public void addTokenToGrid(ColorRobot color, Pattern pattern, int x, int y){
+        Token token = new Token(color, pattern, x, y);
+        this.tokens[token.getLig()][token.getCol()] = token;
+        setToken(token.getLig(), token.getCol(), token);
+    }
+
+    public void setToken(int x, int y, Token token) {
+        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
+        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".JPG", 25, 25, false, true));
     }
 }
