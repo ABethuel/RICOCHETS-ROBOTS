@@ -13,4 +13,9 @@
       <module name="RICOCHETS-ROBOTS" target="17" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="RICOCHETS-ROBOTS" options="--add-exports java.desktop/com.sun.java.swing.plaf.motif=com.example.ricochetsrobots" />
+    </option>
+  </component>
 </project>
