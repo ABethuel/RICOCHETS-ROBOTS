@@ -38,8 +38,8 @@ public class GameController {
 
                 Pane pane = new Pane() ;
                 pane.getChildren().add(image);
-                pane.getChildren().add(imageRobot);
                 pane.getChildren().add(imageToken);
+                pane.getChildren().add(imageRobot);
 
                 int finalI = i;
                 int finalJ = j;
@@ -59,7 +59,7 @@ public class GameController {
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
 
-        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 3, 4);
+        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 0, 5);
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -71,7 +71,7 @@ public class GameController {
 
     // On définit le robot
     public void setRobot(int x, int y, Robot robot) {
-        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
+        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
         imageRobot.setImage(new Image(urlImage + robot.getImageSignature() + ".png", 35, 35, false, true));
         //imageRobot.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(y, x, this.robots));
     }
@@ -79,7 +79,7 @@ public class GameController {
     // S'il n'y a pas de robot, on l'efface
     public void clearPiece(int x, int y, Robot robot) {
         if (board[x][y] != null) {
-            ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
+            ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
             imageRobot.setImage(null);
         }
     }
@@ -114,7 +114,7 @@ public class GameController {
     }
 
     public void setToken(int x, int y, Token token) {
-        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
-        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".JPG", 25, 25, false, true));
+        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
+        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".JPG", 20, 20, false, true));
     }
 }
