@@ -13,13 +13,13 @@ public enum Pattern {
             pattern = "M";
         }
         else if (this == PLANET){
-            pattern = "G";
+            pattern = "P";
         }
         else if (this == STAR){
-            pattern = "B";
+            pattern = "ST";
         }
         else if (this == SUN){
-            pattern = "Y";
+            pattern = "SU";
         }
 
         return pattern;

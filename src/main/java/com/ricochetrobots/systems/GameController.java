@@ -7,10 +7,11 @@ import com.ricochetrobots.entities.Game;
 import com.ricochetrobots.entities.Robot;
 import com.ricochetrobots.entities.Token;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 
 import java.util.List;
 
@@ -31,15 +32,18 @@ public class GameController {
         // On affiche les cellule sur le plateau de jeu
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
-                Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false);
+                Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, true);
                 ImageView image = new ImageView(imageCell);
                 ImageView imageRobot = new ImageView();
                 ImageView imageToken = new ImageView();
 
-                Pane pane = new Pane() ;
+                StackPane pane = new StackPane() ;
+
                 pane.getChildren().add(image);
                 pane.getChildren().add(imageToken);
                 pane.getChildren().add(imageRobot);
+                StackPane.setAlignment(imageToken,Pos.CENTER); //set it to the Center Left(by default it's on the center)
+                StackPane.setAlignment(imageRobot,Pos.CENTER); //set it to the Center Left(by default it's on the center)
 
                 int finalI = i;
                 int finalJ = j;
@@ -48,7 +52,7 @@ public class GameController {
                 if((i != 8 && i != 7) || (j != 7 && j != 8)){
                     this.board[i][j] = pane;
                     this.gridPane.add(pane, i, j);
-                    pane.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(finalJ, finalI, this.robots));
+                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(finalJ, finalI, this.robots));
                 }
             }
         }
@@ -59,7 +63,23 @@ public class GameController {
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
 
-        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 0, 5);
+        // On ajoute les 16 tokens sur le plateau
+        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
+        addTokenToGrid(ColorRobot.RED, Pattern.STAR, 1, 10);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.MOON, 3, 11);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 4, 11);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.SUN, 6, 13);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 12, 1);
+        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 14, 4);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.PLANET, 11, 6);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.STAR, 9, 3);
+        addTokenToGrid(ColorRobot.RED, Pattern.SUN, 14, 12);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 13, 9);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -89,7 +109,7 @@ public class GameController {
         Pane pane = board[pos.getX()][pos.getY()];
 
         ImageView imgCell = (ImageView) pane.getChildren().get(0);
-        imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false));
+        imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, true));
         imgCell.setOpacity(0.4);
     }
 
@@ -100,7 +120,7 @@ public class GameController {
                 Pane pane = board[i][j];
                 if (pane != null) {
                     ImageView imgCell = (ImageView) pane.getChildren().get(0);
-                    imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false));
+                    imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, true));
                     imgCell.setOpacity(1.0);
                 }
             }
@@ -115,6 +135,6 @@ public class GameController {
 
     public void setToken(int x, int y, Token token) {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
-        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".JPG", 20, 20, false, true));
+        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".png", 28,28, true, true));
     }
 }
