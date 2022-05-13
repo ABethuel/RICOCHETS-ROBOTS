@@ -22,6 +22,10 @@ public class Token {
         return color;
     }
 
+    public Pattern getPattern() {
+        return pattern;
+    }
+
     public int getCol() {
         return col;
     }
@@ -32,7 +36,7 @@ public class Token {
 
     public String getImageSignature() {
         String className = getClass().getSimpleName().toLowerCase();
-        return color.toString() + "_" + pattern.toString() + "_" +  className;
+        return getColor().toString() + "_" + getPattern().toString() + "_" +  className;
     }
 
     public void setPosition(int lig, int col) {

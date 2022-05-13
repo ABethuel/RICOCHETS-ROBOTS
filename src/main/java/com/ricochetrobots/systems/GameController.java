@@ -28,7 +28,9 @@ public class GameController {
     private Game game = new Game(this);
     @FXML
     public void initialize() {
-
+        game.randomColorGame() ;
+        game.randomPatternGame();
+        System.out.println(game.getColorGame() +  "    " + game.getPatternGame());
         // On affiche les cellule sur le plateau de jeu
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
@@ -80,6 +82,8 @@ public class GameController {
         addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 13, 9);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
+
+
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -137,4 +141,9 @@ public class GameController {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
         imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".png", 28,28, true, true));
     }
+
+    public Token[][] getTokens() {
+        return tokens;
+    }
+
 }

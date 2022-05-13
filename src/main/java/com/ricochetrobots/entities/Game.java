@@ -5,6 +5,7 @@ import com.ricochetrobots.systems.GameController;
 import javafx.geometry.Pos;
 
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
@@ -12,6 +13,9 @@ public class Game {
     private List<Position> possibleMoves;
     private final GameController gameController;
     private Position selectedPiece;
+
+    private String colorGame;
+    private String patternGame;
 
     public Game(GameController gameController) {
         this.gameController = gameController;
@@ -50,17 +54,6 @@ public class Game {
                 }
             }
         }
-
-        /*if (hasFriendlyPieceAt(i, j)) {
-            System.out.println("test");
-            selectedPiece = new Position(i, j);
-            possibleMoves = board[i][j].getPossibleMoves(new Position(i, j), this);
-            update();
-        } else if (selectedPiece != null && possibleMoves.contains(new Position(i, j))) {
-            movePiece(selectedPiece, new Position(i, j));
-            selectedPiece = null;
-        } else if (!hasPieceAt(i, j))
-            selectedPiece = null;*/
     }
 
     // On met à jour l'écran
@@ -98,5 +91,43 @@ public class Game {
         robots[to.getY()][to.getX()].setPosition(to.getY(), to.getX());
         update(robots);
         gameController.clearPossibleMoves();
+    }
+
+    public void randomColorGame(){
+        Random random = new Random();
+        int color = random.nextInt(4);
+        switch(color){
+            case 0 -> colorGame = "R";
+            case 1 -> colorGame = "G";
+            case 2 -> colorGame = "B";
+            case 3 -> colorGame = "Y";
+        }
+    }
+
+    public void randomPatternGame(){
+        Random random = new Random();
+        int pattern = random.nextInt(4);
+        switch(pattern){
+            case 0 -> patternGame = "M";
+            case 1 -> patternGame = "P";
+            case 2 -> patternGame = "ST";
+            case 3 -> patternGame = "SU";
+        }
+    }
+
+    public String getColorGame() {
+        return colorGame;
+    }
+
+    public void setColorGame(String colorGame) {
+        this.colorGame = colorGame;
+    }
+
+    public String getPatternGame() {
+        return patternGame;
+    }
+
+    public void setPatternGame(String patternGame) {
+        this.patternGame = patternGame;
     }
 }
