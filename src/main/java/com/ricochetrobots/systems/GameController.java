@@ -8,6 +8,7 @@ import com.ricochetrobots.entities.Robot;
 import com.ricochetrobots.entities.Token;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,18 +20,20 @@ public class GameController {
     @FXML
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
+    public ImageView targetImage;
+    public Label targetSentenceText;
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
     private List<Position> possibleMoves;
 
     public String urlImage = "file:assets/";
+    private String colorTargetText;
+    private String patternTargetText;
 
     private Game game = new Game(this);
     @FXML
     public void initialize() {
-        game.randomColorGame() ;
-        game.randomPatternGame();
-        System.out.println(game.getColorGame() +  "    " + game.getPatternGame());
+
         // On affiche les cellule sur le plateau de jeu
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
@@ -59,6 +62,7 @@ public class GameController {
             }
         }
 
+        System.out.println("test");
         // On ajoute les robots
         addRobotToBoard(ColorRobot.RED);
         addRobotToBoard(ColorRobot.GREEN);
@@ -83,6 +87,12 @@ public class GameController {
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
 
+        // On définit le jeton cible
+        game.setColorGame(); ;
+        game.setPatternGame();
+        game.defineTarget();
+
+        updateScreen();
 
     }
 
@@ -146,4 +156,68 @@ public class GameController {
         return tokens;
     }
 
+    public void setTargetImage(){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
+                        targetImage.setImage(new Image(urlImage + "tokens/" + token.getImageSignature() + ".png"));
+                    }
+                }
+            }
+        }
+    }
+
+    public String getColorTargetText(){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
+                        String colorToken = token.getColor().toString();
+                        switch(colorToken){
+                            case "R" -> colorTargetText = "rouge";
+                            case "B" -> colorTargetText = "bleu";
+                            case "G" -> colorTargetText = "vert";
+                            case "Y" -> colorTargetText = "jaune";
+                        }
+                    }
+                }
+            }
+        }
+        return colorTargetText;
+
+    }
+
+    public String getPatternTargetText(){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
+                        String patternToken = token.getPattern().toString();
+                        switch(patternToken){
+                            case "M" -> patternTargetText = "lune";
+                            case "P" -> patternTargetText = "planête";
+                            case "ST" -> patternTargetText = "étoile";
+                            case "SU" -> patternTargetText = "soleil";
+                        }
+                    }
+                }
+            }
+        }
+        return patternTargetText;
+    }
+
+    public void setTargetSentenceText(){
+        String color = getColorTargetText();
+        String pattern = getPatternTargetText();
+        targetSentenceText.setText("Déplacer le robot " + color + " jusqu'à sa cible " + pattern + " !");
+    }
+
+    public void updateScreen(){
+        setTargetImage();
+        setTargetSentenceText();
+    }
 }

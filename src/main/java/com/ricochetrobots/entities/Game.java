@@ -16,6 +16,7 @@ public class Game {
 
     private String colorGame;
     private String patternGame;
+    private Token targetToken;
 
     public Game(GameController gameController) {
         this.gameController = gameController;
@@ -74,60 +75,93 @@ public class Game {
                 gameController.setPossibleMove(p);
             }
         }
-    }
+   }
 
-    public boolean hasObstacleAt(int x, int y, Robot[][] robots) {
+   public boolean hasObstacleAt(int x, int y, Robot[][] robots) {
         if (isInBoard(x, y)){
             System.out.println("Obstacle x = " + x + "  y = " + y);
             return robots[y][x] != null;
         }
         else return false;
-    }
+   }
 
-    private void movePiece(Position from, Position to, Robot[][] robots ) {
+   private void movePiece(Position from, Position to, Robot[][] robots ) {
         robots[to.getY()][to.getX()] = robots[from.getY()][from.getX()];
         robots[from.getY()][from.getX()] = null;
         robots[to.getY()][to.getX()].moved();
         robots[to.getY()][to.getX()].setPosition(to.getY(), to.getX());
         update(robots);
         gameController.clearPossibleMoves();
-    }
+   }
 
-    public void randomColorGame(){
+   // On définit au hasard la couleur du jeton cible
+   public void randomColorGame(){
         Random random = new Random();
         int color = random.nextInt(4);
         switch(color){
-            case 0 -> colorGame = "R";
-            case 1 -> colorGame = "G";
-            case 2 -> colorGame = "B";
-            case 3 -> colorGame = "Y";
+            case 0 -> this.colorGame = "R";
+            case 1 -> this.colorGame = "G";
+            case 2 -> this.colorGame = "B";
+            case 3 -> this.colorGame = "Y";
         }
-    }
+   }
 
-    public void randomPatternGame(){
+   // On définit au hasard le motif du jeton cible
+   public void randomPatternGame(){
         Random random = new Random();
         int pattern = random.nextInt(4);
         switch(pattern){
-            case 0 -> patternGame = "M";
-            case 1 -> patternGame = "P";
-            case 2 -> patternGame = "ST";
-            case 3 -> patternGame = "SU";
+            case 0 -> this.patternGame = "M";
+            case 1 -> this.patternGame = "P";
+            case 2 -> this.patternGame = "ST";
+            case 3 -> this.patternGame = "SU";
         }
-    }
+   }
 
-    public String getColorGame() {
+   public String getColorGame() {
         return colorGame;
     }
 
-    public void setColorGame(String colorGame) {
-        this.colorGame = colorGame;
-    }
+   public void setColorGame() {
+        randomColorGame();
+   }
 
-    public String getPatternGame() {
+   public String getPatternGame() {
         return patternGame;
     }
 
-    public void setPatternGame(String patternGame) {
-        this.patternGame = patternGame;
+   public void setPatternGame() {
+        randomPatternGame();
+   }
+
+   // On récupère une chaine de caractère du jeton cible
+   public String getSignatureTargetToken() {
+       String target = getPatternGame();
+       String color = getColorGame();
+       return color + "_" + target;
+   }
+
+   // On définit le jeton cible
+   public void defineTarget(){
+       for (int i = 0; i<16; i++){
+           for (int j = 0; j<16; j++){
+               if (gameController.getTokens()[i][j] != null) {
+                   targetToken = gameController.getTokens()[i][j];
+                   if (targetToken.getName().equals(getSignatureTargetToken())) {          // Si les noms correspondent, on définit la cible
+                       targetToken.setTarget(true);
+                   }
+               }
+           }
+       }
+   }
+
+    public Token getTargetToken(){
+        System.out.println(targetToken.getName());
+        System.out.println(targetToken.getColor().toString());
+        System.out.println(targetToken.getPattern().toString());
+
+        return targetToken;
     }
+
+
 }
