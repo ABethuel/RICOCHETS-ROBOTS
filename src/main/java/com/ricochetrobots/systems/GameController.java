@@ -1,16 +1,18 @@
 package com.ricochetrobots.systems;
 
 import com.ricochetrobots.components.ColorRobot;
+import com.ricochetrobots.components.Pattern;
 import com.ricochetrobots.components.Position;
 import com.ricochetrobots.entities.Game;
 import com.ricochetrobots.entities.Robot;
+import com.ricochetrobots.entities.Token;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class GameController {
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
     private Robot[][] robots = new Robot[16][16];
+    private Token[][] tokens = new Token[16][16];
     private List<Position> possibleMoves;
 
     public String urlImage = "file:assets/";
@@ -27,6 +30,7 @@ public class GameController {
     @FXML
     public void initialize() {
 
+        // On affiche les cellule sur le plateau de jeu
         Insets mars_pads = new Insets(0, 0, 0, 0);
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setPadding(mars_pads);
@@ -35,14 +39,17 @@ public class GameController {
         gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY, new BorderWidths(5))));
 
+        // On affiche les cellule sur le plateau de jeu
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
                 Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false);
                 ImageView image = new ImageView(imageCell);
                 ImageView imageRobot = new ImageView();
+                ImageView imageToken = new ImageView();
 
                 Pane pane = new Pane() ;
                 pane.getChildren().add(image);
+                pane.getChildren().add(imageToken);
                 pane.getChildren().add(imageRobot);
 
                 int finalI = i;
@@ -62,6 +69,8 @@ public class GameController {
         addRobotToBoard(ColorRobot.GREEN);
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
+
+        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 0, 5);
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -73,7 +82,7 @@ public class GameController {
 
     // On définit le robot
     public void setRobot(int x, int y, Robot robot) {
-        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
+        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
         imageRobot.setImage(new Image(urlImage + robot.getImageSignature() + ".png", 35, 35, false, true));
         //imageRobot.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(y, x, this.robots));
     }
@@ -81,7 +90,7 @@ public class GameController {
     // S'il n'y a pas de robot, on l'efface
     public void clearPiece(int x, int y, Robot robot) {
         if (board[x][y] != null) {
-            ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
+            ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
             imageRobot.setImage(null);
         }
     }
@@ -107,5 +116,16 @@ public class GameController {
                 }
             }
         }
+    }
+
+    public void addTokenToGrid(ColorRobot color, Pattern pattern, int x, int y){
+        Token token = new Token(color, pattern, x, y);
+        this.tokens[token.getLig()][token.getCol()] = token;
+        setToken(token.getLig(), token.getCol(), token);
+    }
+
+    public void setToken(int x, int y, Token token) {
+        ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
+        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".JPG", 20, 20, false, true));
     }
 }
