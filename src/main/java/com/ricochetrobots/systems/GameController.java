@@ -5,6 +5,8 @@ import com.ricochetrobots.components.Position;
 import com.ricochetrobots.entities.Game;
 import com.ricochetrobots.entities.Robot;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -24,7 +26,15 @@ public class GameController {
     private Game game = new Game(this);
     @FXML
     public void initialize() {
-        // On affiche les cellule sur le plateau de jeu
+
+        Insets mars_pads = new Insets(0, 0, 0, 0);
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setPadding(mars_pads);
+        gridPane.setHgap(0);
+        gridPane.setVgap(0);
+        gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(5))));
+
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
                 Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false);

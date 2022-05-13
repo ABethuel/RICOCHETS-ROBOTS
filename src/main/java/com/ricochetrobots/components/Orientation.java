@@ -1,4 +1,8 @@
 package com.ricochetrobots.components;
 
-public enum Direction {
+public enum Orientation {
+    NORTH,
+    SOUTH,
+    EST,
+    WEST,
 }

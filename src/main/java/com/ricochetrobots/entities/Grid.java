@@ -1,5 +1,6 @@
 package com.ricochetrobots.entities;
 
+import com.ricochetrobots.components.Orientation;
 import com.ricochetrobots.systems.GameController;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -11,23 +12,18 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Grid {
-    //private int[][] board_matrix;
-    //private int board_size;
-    //private int win_length;
+    private final Wall[][] grid = new Wall[16][16];
 
-    //public Grid(int board_size, int win_length) {
-        //this.board_matrix = new int[board_size][board_size];
-        //this.board_size = board_size;
-        //this.win_length = win_length;
+    public Wall[][] getGrid() {return grid;}
 
-        //for (int i = 0; i < board_size; i++) {
-            //for (int j = 0; j < board_size; j++) {
-                //this.board_matrix[i][j] = 0;
-            //}
-        //}
-    //}
+
+    public void setWall (int x, int y, Orientation orientation){
+        grid[x][y] = new Wall(x,y, orientation);
+    }
+
+
+
+
 }
 
 
-// 1.class board definir le board
-// 2. class cell pour verifier mur --> avoir crée un mur
