@@ -75,13 +75,6 @@ public class GameController {
             }
         }
 
-        System.out.println("test");
-        // On ajoute les robots
-        addRobotToBoard(ColorRobot.RED);
-        addRobotToBoard(ColorRobot.GREEN);
-        addRobotToBoard(ColorRobot.BLUE);
-        addRobotToBoard(ColorRobot.YELLOW);
-
         // On ajoute les 16 tokens sur le plateau
         addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
@@ -101,9 +94,15 @@ public class GameController {
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
 
         // On définit le jeton cible
-        game.setColorGame(); ;
+        game.setColorGame();
         game.setPatternGame();
         game.defineTarget();
+
+        // On ajoute les robots
+        addRobotToBoard(ColorRobot.RED);
+        addRobotToBoard(ColorRobot.GREEN);
+        addRobotToBoard(ColorRobot.BLUE);
+        addRobotToBoard(ColorRobot.YELLOW);
 
         updateScreen();
 
@@ -111,7 +110,7 @@ public class GameController {
 
     // Méthode pour ajouter les robots sur le plateau
     public void addRobotToBoard(ColorRobot color){
-        Robot robot = new Robot(color);
+        Robot robot = new Robot(color, this);
         this.robots[robot.getLig()][robot.getCol()] = robot;
         setRobot(robot.getLig(), robot.getCol(), robot);
     }

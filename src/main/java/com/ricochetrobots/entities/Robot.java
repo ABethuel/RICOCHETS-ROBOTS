@@ -2,6 +2,7 @@ package com.ricochetrobots.entities;
 
 import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Position;
+import com.ricochetrobots.systems.GameController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +15,14 @@ public class Robot {
     protected boolean hasMoved;
     private int col;
     private int lig;
+    private final GameController gameController;
 
-    public Robot(ColorRobot color) {
+    public Robot(ColorRobot color, GameController gameController) {
         this.color = color;
         this.hasMoved = false;
         Random random = new Random();
-        setPosition( random.nextInt(16), random.nextInt(16) );
+        this.gameController = gameController;
+        setPosition( random.nextInt(16), random.nextInt(16), 1, gameController.getTokens());
     }
 
     // On récupère le nom de l'image correspondant au robot
@@ -50,9 +53,9 @@ public class Robot {
     }
 
     // On définit la position du robot
-    public void setPosition(int lig, int col) {
+    public void setPosition(int lig, int col, int numberOfMoves, Token[][] tokens) {
         // Si les positions aléatoires donnent le robot au centre on refait le tirage
-        while (( lig == 7 && col == 7 ) || (lig == 7 && col == 8) || (lig == 8 && col == 7) || (lig == 8 && col == 8)){
+        while (( lig == 7 && col == 7 ) || (lig == 7 && col == 8) || (lig == 8 && col == 7) || (lig == 8 && col == 8) || (numberOfMoves == 1 && tokens[lig][col] != null)){
             Random random = new Random();
             lig = random.nextInt(16);
             col = random.nextInt(16);

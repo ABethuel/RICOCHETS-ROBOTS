@@ -18,6 +18,8 @@ public class Game {
     private String patternGame;
     private Token targetToken;
 
+    private int numberOfMoves;
+
     public Game(GameController gameController) {
         this.gameController = gameController;
     }
@@ -32,6 +34,14 @@ public class Game {
 
     public boolean isInBoard(int x, int y) {
         return isInBoard(new Position(x, y));
+    }
+
+    public int getNumberOfMoves() {
+        return numberOfMoves;
+    }
+
+    public void setNumberOfMoves(int numberOfMoves) {
+        this.numberOfMoves = numberOfMoves;
     }
 
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
@@ -89,7 +99,7 @@ public class Game {
         robots[to.getY()][to.getX()] = robots[from.getY()][from.getX()];
         robots[from.getY()][from.getX()] = null;
         robots[to.getY()][to.getX()].moved();
-        robots[to.getY()][to.getX()].setPosition(to.getY(), to.getX());
+        robots[to.getY()][to.getX()].setPosition(to.getY(), to.getX(), getNumberOfMoves(), gameController.getTokens());
         update(robots);
         gameController.clearPossibleMoves();
    }
