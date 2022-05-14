@@ -17,13 +17,7 @@ public class Grid {
     public Wall[][] getGrid() {return grid;}
 
 
-    public void setWall (int x, int y, Orientation orientation){
-        grid[x][y] = new Wall(x,y, orientation);
+    public void setWall (int x, int y, Orientation orientation) {
+        grid[x][y] = new Wall(x, y, orientation);
     }
-
-
-
-
 }
-
-

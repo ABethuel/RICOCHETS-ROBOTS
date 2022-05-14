@@ -9,9 +9,13 @@ import com.ricochetrobots.entities.Token;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 
 import java.util.List;
@@ -20,11 +24,15 @@ public class GameController {
     @FXML
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
+    public Label targetSentenceText;
+    public ImageView targetImage;
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
     private List<Position> possibleMoves;
 
     public String urlImage = "file:assets/";
+    private String colorTargetText;
+    private String patternTargetText;
 
     private Game game = new Game(this);
     @FXML
@@ -42,15 +50,18 @@ public class GameController {
         // On affiche les cellule sur le plateau de jeu
         for (int i = 0 ; i < 16; i++){
             for (int j = 0 ; j< 16 ;j++){
-                Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false);
+                Image imageCell = new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, true);
                 ImageView image = new ImageView(imageCell);
                 ImageView imageRobot = new ImageView();
                 ImageView imageToken = new ImageView();
 
-                Pane pane = new Pane() ;
+                StackPane pane = new StackPane() ;
+
                 pane.getChildren().add(image);
                 pane.getChildren().add(imageToken);
                 pane.getChildren().add(imageRobot);
+                StackPane.setAlignment(imageToken,Pos.CENTER); //set it to the Center Left(by default it's on the center)
+                StackPane.setAlignment(imageRobot,Pos.CENTER); //set it to the Center Left(by default it's on the center)
 
                 int finalI = i;
                 int finalJ = j;
@@ -59,18 +70,43 @@ public class GameController {
                 if((i != 8 && i != 7) || (j != 7 && j != 8)){
                     this.board[i][j] = pane;
                     this.gridPane.add(pane, i, j);
-                    pane.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(finalJ, finalI, this.robots));
+                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(finalJ, finalI, this.robots));
                 }
             }
         }
 
+        System.out.println("test");
         // On ajoute les robots
         addRobotToBoard(ColorRobot.RED);
         addRobotToBoard(ColorRobot.GREEN);
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
 
-        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 0, 5);
+        // On ajoute les 16 tokens sur le plateau
+        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
+        addTokenToGrid(ColorRobot.RED, Pattern.STAR, 1, 10);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.MOON, 3, 11);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 4, 11);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.SUN, 6, 13);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 12, 1);
+        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 14, 4);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.PLANET, 11, 6);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.STAR, 9, 3);
+        addTokenToGrid(ColorRobot.RED, Pattern.SUN, 14, 12);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 13, 9);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
+
+        // On définit le jeton cible
+        game.setColorGame(); ;
+        game.setPatternGame();
+        game.defineTarget();
+
+        updateScreen();
+
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -100,7 +136,7 @@ public class GameController {
         Pane pane = board[pos.getX()][pos.getY()];
 
         ImageView imgCell = (ImageView) pane.getChildren().get(0);
-        imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false));
+        imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, true));
         imgCell.setOpacity(0.4);
     }
 
@@ -111,7 +147,7 @@ public class GameController {
                 Pane pane = board[i][j];
                 if (pane != null) {
                     ImageView imgCell = (ImageView) pane.getChildren().get(0);
-                    imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, false));
+                    imgCell.setImage(new Image(urlImage + "GridUnit.png", 37.5, 37.5, false, true));
                     imgCell.setOpacity(1.0);
                 }
             }
@@ -126,6 +162,75 @@ public class GameController {
 
     public void setToken(int x, int y, Token token) {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
-        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".JPG", 20, 20, false, true));
+        imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".png", 28,28, true, true));
+    }
+
+    public Token[][] getTokens() {
+        return tokens;
+    }
+
+    public void setTargetImage(){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
+                        targetImage.setImage(new Image(urlImage + "tokens/" + token.getImageSignature() + ".png"));
+                    }
+                }
+            }
+        }
+    }
+
+    public String getColorTargetText(){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
+                        String colorToken = token.getColor().toString();
+                        switch(colorToken){
+                            case "R" -> colorTargetText = "rouge";
+                            case "B" -> colorTargetText = "bleu";
+                            case "G" -> colorTargetText = "vert";
+                            case "Y" -> colorTargetText = "jaune";
+                        }
+                    }
+                }
+            }
+        }
+        return colorTargetText;
+
+    }
+
+    public String getPatternTargetText(){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
+                        String patternToken = token.getPattern().toString();
+                        switch(patternToken){
+                            case "M" -> patternTargetText = "lune";
+                            case "P" -> patternTargetText = "planête";
+                            case "ST" -> patternTargetText = "étoile";
+                            case "SU" -> patternTargetText = "soleil";
+                        }
+                    }
+                }
+            }
+        }
+        return patternTargetText;
+    }
+
+    public void setTargetSentenceText(){
+        String color = getColorTargetText();
+        String pattern = getPatternTargetText();
+        targetSentenceText.setText("Déplacer le robot " + color + " jusqu'à sa cible " + pattern + " !");
+    }
+
+    public void updateScreen(){
+        setTargetImage();
+        setTargetSentenceText();
     }
 }

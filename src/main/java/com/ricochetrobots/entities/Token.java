@@ -10,16 +10,22 @@ public class Token {
     protected Pattern pattern;
     private int col;
     private int lig;
+    private boolean isTarget;
 
     public Token(ColorRobot color, Pattern pattern, int col, int lig) {
         this.color = color;
         this.pattern = pattern;
         this.col = col;
         this.lig = lig;
+        this.isTarget = false;
     }
 
     public ColorRobot getColor() {
         return color;
+    }
+
+    public Pattern getPattern() {
+        return pattern;
     }
 
     public int getCol() {
@@ -32,11 +38,23 @@ public class Token {
 
     public String getImageSignature() {
         String className = getClass().getSimpleName().toLowerCase();
-        return color.toString() + "_" + pattern.toString() + "_" +  className;
+        return getColor().toString() + "_" + getPattern().toString() + "_" +  className;
+    }
+
+    public String getName(){
+        return getColor().toString() + "_" + getPattern().toString();
     }
 
     public void setPosition(int lig, int col) {
         this.lig = lig;
         this.col = col;
+    }
+
+    public boolean isTarget() {
+        return isTarget;
+    }
+
+    public void setTarget(boolean target) {
+        isTarget = target;
     }
 }
