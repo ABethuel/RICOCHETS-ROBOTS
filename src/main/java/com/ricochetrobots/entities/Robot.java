@@ -22,7 +22,7 @@ public class Robot {
         this.hasMoved = false;
         Random random = new Random();
         this.gameController = gameController;
-        setPosition( random.nextInt(16), random.nextInt(16), 1, gameController.getTokens());
+        setPosition( random.nextInt(16), random.nextInt(16), 0, gameController.getTokens());
     }
 
     // On récupère le nom de l'image correspondant au robot
@@ -55,7 +55,7 @@ public class Robot {
     // On définit la position du robot
     public void setPosition(int lig, int col, int numberOfMoves, Token[][] tokens) {
         // Si les positions aléatoires donnent le robot au centre on refait le tirage
-        while (( lig == 7 && col == 7 ) || (lig == 7 && col == 8) || (lig == 8 && col == 7) || (lig == 8 && col == 8) || (numberOfMoves == 1 && tokens[lig][col] != null)){
+        while (( lig == 7 && col == 7 ) || (lig == 7 && col == 8) || (lig == 8 && col == 7) || (lig == 8 && col == 8) || (numberOfMoves == 0 && tokens[lig][col] != null)){
             Random random = new Random();
             lig = random.nextInt(16);
             col = random.nextInt(16);
