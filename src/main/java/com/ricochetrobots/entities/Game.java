@@ -202,11 +202,13 @@ public class Game {
         return targetToken;
     }
 
+    // On vérifie si la partie est gagnée
     public void isGameWon(Robot[][] robots) {
         for (int i = 0 ; i < 16; i++){
             for (int j = 0; j < 16; j++){
                 Robot robot = robots[j][i];
                 if (robot != null) {
+                    // Si les conditions sont respectés, la partie est gagnée
                     if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig() && robot.getColor() == targetToken.getColor()) {
                         System.out.println("Partie gagnée !");
                         setGameWon(true);
