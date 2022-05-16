@@ -207,7 +207,7 @@ public class Game {
             for (int j = 0; j < 16; j++){
                 Robot robot = robots[j][i];
                 if (robot != null) {
-                    if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig()) {
+                    if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig() && robot.getColor() == targetToken.getColor()) {
                         System.out.println("Partie gagnée !");
                         setGameWon(true);
                         break;
@@ -216,6 +216,4 @@ public class Game {
             }
         }
     }
-
-
 }
