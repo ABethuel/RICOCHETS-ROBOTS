@@ -1,11 +1,13 @@
 package com.ricochetrobots.systems;
 
 import com.ricochetrobots.components.ColorRobot;
+import com.ricochetrobots.components.Orientation;
 import com.ricochetrobots.components.Pattern;
 import com.ricochetrobots.components.Position;
 import com.ricochetrobots.entities.Game;
 import com.ricochetrobots.entities.Robot;
 import com.ricochetrobots.entities.Token;
+import com.ricochetrobots.entities.Wall;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,6 +30,7 @@ public class GameController {
     public ImageView targetImage;
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
+    private Wall[][] walls = new Wall[16][16];
     private List<Position> possibleMoves;
 
     public String urlImage = "file:assets/";
@@ -54,6 +57,7 @@ public class GameController {
                 ImageView image = new ImageView(imageCell);
                 ImageView imageRobot = new ImageView();
                 ImageView imageToken = new ImageView();
+                ImageView imageWall = new ImageView();
 
                 StackPane pane = new StackPane() ;
 
@@ -62,6 +66,7 @@ public class GameController {
                 pane.getChildren().add(imageRobot);
                 StackPane.setAlignment(imageToken,Pos.CENTER); //set it to the Center Left(by default it's on the center)
                 StackPane.setAlignment(imageRobot,Pos.CENTER); //set it to the Center Left(by default it's on the center)
+                pane.getChildren().add(imageWall);
 
                 int finalI = i;
                 int finalJ = j;
@@ -109,6 +114,10 @@ public class GameController {
         addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 15, 0);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 15, 15);
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 0, 15);
+
+        // On met en place les murs
+        addWallToBoard(Orientation.EAST, 10,14);
+
 
         // On définit le jeton cible
         game.defineTarget();
@@ -246,5 +255,18 @@ public class GameController {
     public void updateScreen(){
         setTargetImage();
         setTargetSentenceText();
+    }
+
+    public void addWallToBoard(Orientation orientation, int x, int y){
+        Wall wall = new Wall(x,y,orientation );
+        this.walls[wall.getLig()][wall.getCol()] = wall;
+        setWall(wall.getLig(), wall.getCol(), wall);
+    }
+
+    // On définit le robot
+    public void setWall(int x, int y, Wall wall) {
+        ImageView imageWall = (ImageView) board[x][y].getChildren().get(3);
+        System.out.println(urlImage +"Wall/" + wall.getImageSignature() + ".png");
+        imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 35, 35, false, true));
     }
 }
