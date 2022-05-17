@@ -58,6 +58,7 @@ public class GameController {
                 ImageView imageRobot = new ImageView();
                 ImageView imageToken = new ImageView();
                 ImageView imageWall = new ImageView();
+                ImageView imageCenterToken = new ImageView();
 
                 StackPane pane = new StackPane() ;
 
@@ -66,7 +67,9 @@ public class GameController {
                 pane.getChildren().add(imageRobot);
                 StackPane.setAlignment(imageToken,Pos.CENTER); //set it to the Center Left(by default it's on the center)
                 StackPane.setAlignment(imageRobot,Pos.CENTER); //set it to the Center Left(by default it's on the center)
+
                 pane.getChildren().add(imageWall);
+                pane.getChildren().add(imageCenterToken);
 
                 int finalI = i;
                 int finalJ = j;
@@ -118,7 +121,6 @@ public class GameController {
         // On met en place les murs
         addWallToBoard(Orientation.EAST, 10,14);
 
-
         // On définit le jeton cible
         game.defineTarget();
 
@@ -128,6 +130,7 @@ public class GameController {
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
 
+        setCenterTargetImages();
         updateScreen();
 
     }
@@ -192,6 +195,23 @@ public class GameController {
         return tokens;
     }
 
+    // On récupère le jeton cible
+    public Token getTargetToken(){
+        Token targetToken = null;
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (getTokens()[i][j] != null) {
+                    Token token = getTokens()[i][j];
+                    if (token.isTarget()) {
+                        targetToken = token;
+                        break;
+                    }
+                }
+            }
+        }
+        return targetToken;
+    }
+
     public void setTargetImage(){
         for (int i = 0; i<16; i++){
             for (int j = 0; j<16; j++){
@@ -199,6 +219,35 @@ public class GameController {
                     Token token = getTokens()[i][j];
                     if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
                         targetImage.setImage(new Image(urlImage + "tokens/" + token.getImageSignature() + ".png"));
+                    }
+                }
+            }
+        }
+    }
+
+    public void setCenterTargetImages(){
+        for (int i = 0 ; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                if (getTargetToken() != null) {
+                    if (i == 7 && j == 7) {
+                        Image imageTargetCenter = new Image(urlImage + "/center_tokens/" + getTargetToken().getImageSignature() + "_1.png", 37.5, 37.5, true, true);
+                        ImageView imageCenter = new ImageView(imageTargetCenter);
+                        this.gridPane.add(imageCenter, i, j);
+                    }
+                    if (i == 8 && j == 7) {
+                        Image imageTargetCenter = new Image(urlImage + "/center_tokens/" + getTargetToken().getImageSignature() + "_2.png", 37.5, 37.5, true, true);
+                        ImageView imageCenter = new ImageView(imageTargetCenter);
+                        this.gridPane.add(imageCenter, i, j);
+                    }
+                    if (i == 7 && j == 8) {
+                        Image imageTargetCenter = new Image(urlImage + "/center_tokens/" + getTargetToken().getImageSignature() + "_3.png", 37.5, 37.5, true, true);
+                        ImageView imageCenter = new ImageView(imageTargetCenter);
+                        this.gridPane.add(imageCenter, i, j);
+                    }
+                    if (i == 8 && j == 8) {
+                        Image imageTargetCenter = new Image(urlImage + "/center_tokens/" + getTargetToken().getImageSignature() + "_4.png", 37.5, 37.5, true, true);
+                        ImageView imageCenter = new ImageView(imageTargetCenter);
+                        this.gridPane.add(imageCenter, i, j);
                     }
                 }
             }
@@ -267,6 +316,7 @@ public class GameController {
     public void setWall(int x, int y, Wall wall) {
         ImageView imageWall = (ImageView) board[x][y].getChildren().get(3);
         System.out.println(urlImage +"Wall/" + wall.getImageSignature() + ".png");
-        imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 35, 35, false, true));
+        imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 35, 35, true, true));
     }
+
 }

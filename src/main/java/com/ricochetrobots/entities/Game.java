@@ -175,30 +175,16 @@ public class Game {
                if (gameController.getTokens()[i][j] != null) {
                    Token token = gameController.getTokens()[i][j];
                    if (token.getName().equals(getSignatureTargetToken())) {
-                       targetToken = token;// Si les noms correspondent, on définit la cible
-                       targetToken.setTarget(true);
+                       this.targetToken = token;// Si les noms correspondent, on définit la cible
+                       this.targetToken.setTarget(true);
                        break;
                    }
                }
            }
        }
-       /*for (int i = 0; i<16; i++){
-           for (int j = 0; j<16; j++){
-               if (gameController.getTokens()[i][j] != null) {
-                   Token token = gameController.getTokens()[i][j];
-                   if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
-                       targetImage.setImage(new Image(urlImage + "tokens/" + token.getImageSignature() + ".png"));
-                   }
-               }
-           }
-       }*/
    }
 
     public Token getTargetToken(){
-        System.out.println(targetToken.getName());
-        System.out.println(targetToken.getColor().toString());
-        System.out.println(targetToken.getPattern().toString());
-
         return targetToken;
     }
 
