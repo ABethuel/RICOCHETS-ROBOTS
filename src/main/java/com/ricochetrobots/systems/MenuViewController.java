@@ -11,8 +11,9 @@ public class MenuViewController {
     public Button startButton;
 
     public void onStartClick(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("game-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("players-view.fxml"));
+        //Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 722, 472);
         MainApplication.stage.setScene(scene);
         MainApplication.stage.show();
     }
