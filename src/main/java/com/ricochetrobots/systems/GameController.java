@@ -4,17 +4,20 @@ import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Orientation;
 import com.ricochetrobots.components.Pattern;
 import com.ricochetrobots.components.Position;
-import com.ricochetrobots.entities.Game;
-import com.ricochetrobots.entities.Robot;
-import com.ricochetrobots.entities.Token;
-import com.ricochetrobots.entities.Wall;
+import com.ricochetrobots.entities.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -23,11 +26,19 @@ import javafx.scene.paint.Color;
 import java.util.List;
 
 public class GameController {
+    public List<Player> players = (List<Player>) MainApplication.stage.getUserData();
+
     @FXML
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
     public Label targetSentenceText;
     public ImageView targetImage;
+    public HBox hBoxPlayer1;
+    public TextField textFieldPlayer1;
+    public HBox hBoxPlayer2;
+    public TextField textFieldPlayer2;
+    public Button validateShotsButton;
+
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
     private Wall[][] walls = new Wall[16][16];
@@ -37,10 +48,15 @@ public class GameController {
     private String colorTargetText;
     private String patternTargetText;
 
-    private Game game = new Game(this);
+    private Game game = new Game(this, players);
+    private int numberOfShotsPlayer1;
+    private int numberOfShotsPlayer2;
+
+
     @FXML
     public void initialize() {
 
+        setVisibiltyHBox();
         // On affiche les cellule sur le plateau de jeu
         Insets mars_pads = new Insets(0, 0, 0, 0);
         gridPane.setAlignment(Pos.CENTER);
@@ -319,4 +335,38 @@ public class GameController {
         imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 35, 35, true, true));
     }
 
+    public void validateShotsOnClick(ActionEvent actionEvent) {
+        System.out.println(numberOfShotsPlayer1 + "   " + numberOfShotsPlayer2);
+    }
+
+    @FXML
+    public void onSetNumber() {
+        textFieldPlayer1.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textFieldPlayer1.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        numberOfShotsPlayer1 = Integer.parseInt(textFieldPlayer1.getText());
+
+        textFieldPlayer2.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textFieldPlayer2.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        numberOfShotsPlayer2 = Integer.parseInt(textFieldPlayer2.getText());
+    }
+
+    private void setVisibiltyHBox(){
+        if (players.size() == 1){
+            hBoxPlayer2.setVisible(false);
+        }
+    }
 }

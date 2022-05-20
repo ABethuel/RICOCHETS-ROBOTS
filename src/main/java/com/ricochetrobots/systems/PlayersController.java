@@ -1,16 +1,25 @@
 package com.ricochetrobots.systems;
 
+import com.ricochetrobots.entities.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class PlayersController {
     ObservableList<String> list= FXCollections.observableArrayList();
+    public List<Player> players = new ArrayList<Player>();
 
     public ChoiceBox<String> choiceNumberOfPlayers;
     public Button validateNumberButton;
@@ -68,8 +77,25 @@ public class PlayersController {
             vBoxPlayer2.setVisible(true);
         }
         startGameButton.setVisible(true);
+        choiceNumberOfPlayers.setDisable(true);
     }
 
-    public void startGameOnClick(ActionEvent actionEvent) {
+    public void startGameOnClick(ActionEvent actionEvent) throws IOException {
+        newPlayer(new Player(textFieldPlayer1.getText()));
+        if (textFieldPlayer2.getText() != null && !Objects.equals(textFieldPlayer2.getText(), "") && !Objects.equals(textFieldPlayer2.getText(), " ")){
+            newPlayer(new Player(textFieldPlayer2.getText()));
+        }
+        System.out.println(players);
+        if (textFieldPlayer1.getText() != null && !Objects.equals(textFieldPlayer1.getText(), "") && !Objects.equals(textFieldPlayer1.getText(), " ")) {
+            MainApplication.stage.setUserData(players);
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("game-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+            MainApplication.stage.setScene(scene);
+            MainApplication.stage.show();
+        }
+    }
+
+    private void newPlayer(Player player){
+        players.add(player);
     }
 }

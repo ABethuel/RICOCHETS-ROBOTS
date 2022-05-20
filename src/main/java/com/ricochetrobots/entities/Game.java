@@ -14,6 +14,7 @@ public class Game {
     private List<Position> possibleMoves;
     private final GameController gameController;
     private Position selectedPiece;
+    private List<Player> players;
 
     private String colorGame;
     private String patternGame;
@@ -22,8 +23,9 @@ public class Game {
     private int numberOfMoves = 0;
     private boolean isGameWon = false;
 
-    public Game(GameController gameController) {
+    public Game(GameController gameController, List<Player> players) {
         this.gameController = gameController;
+        this.players = players;
         setColorGame();
         setPatternGame();
     }
