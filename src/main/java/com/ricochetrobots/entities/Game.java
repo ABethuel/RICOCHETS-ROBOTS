@@ -15,6 +15,7 @@ public class Game {
     private final GameController gameController;
     private Position selectedPiece;
     private List<Player> players;
+    private int numberOfShotsExpected;
 
     private String colorGame;
     private String patternGame;
@@ -58,6 +59,33 @@ public class Game {
         isGameWon = gameWon;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public int getNumberOfShotsExpected(int n1, int n2) {
+        /*if (n1 < n2 && n1 != 0) numberOfShotsExpected = n1;  // Le nombre de coup a joué est le nombre le plus bas
+        else if (n2 < n1 && n2!= 0) numberOfShotsExpected = n2;
+        return numberOfShotsExpected;*/
+
+        if (gameController.textFieldPlayer2.getText().equals("0") && !gameController.textFieldPlayer1.getText().equals("0")){
+            numberOfShotsExpected = n1;
+        }else if (!gameController.textFieldPlayer2.getText().equals("0") && gameController.textFieldPlayer1.getText().equals("0")){
+            numberOfShotsExpected = n2;
+        }else if (!gameController.textFieldPlayer2.getText().equals("0") && !gameController.textFieldPlayer1.getText().equals("0")){
+            if (n1 < n2 && n1 != 0){
+                numberOfShotsExpected = n1;
+            }else if (n2 < n1 && n2 != 0){
+                numberOfShotsExpected = n2;
+            }
+        }
+        return numberOfShotsExpected;
+    }
+
+    public void setNumberOfShotsExpected(int numberOfShotsExpected) {
+        this.numberOfShotsExpected = numberOfShotsExpected;
+    }
+
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
     public void onRobotClick(int x, int y, Robot[][] robots){
         System.out.println("Board x = " + y + "  y = " + x);
@@ -99,9 +127,7 @@ public class Game {
             }
         }
         isGameWon(robots);
-        if (isGameWon){
-            System.out.println("c'est gagné");
-        }
+        gameController.updateScreen();
    }
 
    public boolean hasObstacleAt(int x, int y, Robot[][] robots) {
@@ -176,7 +202,7 @@ public class Game {
            for (int j = 0; j<16; j++){
                if (gameController.getTokens()[i][j] != null) {
                    Token token = gameController.getTokens()[i][j];
-                   if (token.getName().equals(getSignatureTargetToken())) {
+                   if (token.getName().equals(getSignatureTargetToken()) && gameController.tokenList.contains(token)) {
                        this.targetToken = token;// Si les noms correspondent, on définit la cible
                        this.targetToken.setTarget(true);
                        break;
@@ -197,13 +223,34 @@ public class Game {
                 Robot robot = robots[j][i];
                 if (robot != null) {
                     // Si les conditions sont respectés, la partie est gagnée
-                    if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig() && robot.getColor() == targetToken.getColor()) {
+                    if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig() && robot.getColor() == targetToken.getColor()
+                            && numberOfMoves <= getNumberOfShotsExpected(gameController.numberOfShotsPlayer1, gameController.numberOfShotsPlayer2)) {
                         System.out.println("Partie gagnée !");
                         setGameWon(true);
+                        players.get(0).setScore(players.get(0).getScore() + 1);
+                        updateGridAfterWin(robots);
                         break;
                     }
                 }
             }
         }
+    }
+
+    public void updateGridAfterWin(Robot[][] robots){
+        for (int i = 0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                if (gameController.getTokens()[i][j] != null) {
+                    Token token = gameController.getTokens()[i][j];
+                    if (token.isTarget()) {
+                        gameController.clearToken(i,j, token);
+                        gameController.tokenList.remove(token);
+                        defineTarget();
+                        System.out.println(targetToken.getName());
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 }
