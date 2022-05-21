@@ -228,7 +228,9 @@ public class Game {
                         System.out.println("Partie gagnée !");
                         setGameWon(true);
                         players.get(0).setScore(players.get(0).getScore() + 1);
+                        setNumberOfMoves(0);  // On incrémente le nombre de coups
                         updateGridAfterWin(robots);
+                        setGameWon(false);
                         break;
                     }
                 }
@@ -244,13 +246,16 @@ public class Game {
                     if (token.isTarget()) {
                         gameController.clearToken(i,j, token);
                         gameController.tokenList.remove(token);
+                        token.setTarget(false);
+                        randomPatternGame();
+                        randomColorGame();
                         defineTarget();
                         System.out.println(targetToken.getName());
+                        gameController.setCenterTargetImages();
                         break;
                     }
                 }
             }
         }
-
     }
 }
