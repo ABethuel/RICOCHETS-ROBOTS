@@ -325,8 +325,10 @@ public class GameController {
         namePlayer1.setText(players.get(0).getName() + " : ");
         textScorePlayer1.setText(" " + players.get(0).getScore());
 
-        namePlayer2.setText(players.get(1).getName() + " : ");
-        textScorePlayer2.setText(" " + players.get(1).getScore());
+        if (players.size() > 1) {
+            namePlayer2.setText(players.get(1).getName() + " : ");
+            textScorePlayer2.setText(" " + players.get(1).getScore());
+        }
     }
 
     public void addWallToBoard(Orientation orientation, int x, int y){
