@@ -56,6 +56,7 @@ public class GameController {
     private Game game = new Game(this, players);
     public int numberOfShotsPlayer1;
     public int numberOfShotsPlayer2;
+    public  Player playerTurn;
 
     @FXML
     public void initialize() {
@@ -105,7 +106,7 @@ public class GameController {
         }
 
         // On ajoute les 16 tokens sur le plateau
-        /*addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
+       /* addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
@@ -130,7 +131,7 @@ public class GameController {
         addTokenToGrid(ColorRobot.BLUE, Pattern.MOON, 1, 15);
         addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 0, 15);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.SUN, 15, 5);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 12, 0);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 0, 0);
         addTokenToGrid(ColorRobot.RED, Pattern.MOON, 15, 4);
         addTokenToGrid(ColorRobot.BLUE, Pattern.PLANET, 15, 3);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.STAR, 15, 2);
@@ -143,7 +144,7 @@ public class GameController {
         addWallToBoard(Orientation.EAST, 10,14);
 
         // On définit le jeton cible
-        game.defineTarget();
+        game.defineTarget(robots);
 
         // On ajoute les robots
         addRobotToBoard(ColorRobot.RED);
@@ -289,7 +290,6 @@ public class GameController {
             }
         }
         return colorTargetText;
-
     }
 
     public String getPatternTargetText(){
@@ -329,6 +329,8 @@ public class GameController {
             namePlayer2.setText(players.get(1).getName() + " : ");
             textScorePlayer2.setText(" " + players.get(1).getScore());
         }
+
+
     }
 
     public void addWallToBoard(Orientation orientation, int x, int y){
@@ -340,14 +342,17 @@ public class GameController {
     // On définit le robot
     public void setWall(int x, int y, Wall wall) {
         ImageView imageWall = (ImageView) board[x][y].getChildren().get(3);
-        System.out.println(urlImage +"Wall/" + wall.getImageSignature() + ".png");
         imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 35, 35, true, true));
     }
 
     public void validateShotsOnClick(ActionEvent actionEvent) {
         gridPane.setDisable(false);
         game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2);
-        System.out.println(game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2));
+        System.out.println("Coups attendus : " + game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2));
+
+        textFieldPlayer2.setDisable(true);
+        textFieldPlayer1.setDisable(true);
+        validateShotsButton.setDisable(true);
     }
 
     @FXML
@@ -383,3 +388,4 @@ public class GameController {
         }
     }
 }
+

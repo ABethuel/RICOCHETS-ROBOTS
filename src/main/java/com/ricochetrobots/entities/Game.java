@@ -1,5 +1,6 @@
 package com.ricochetrobots.entities;
 
+import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Position;
 import com.ricochetrobots.systems.GameController;
 import javafx.geometry.Pos;
@@ -20,9 +21,12 @@ public class Game {
     private String colorGame;
     private String patternGame;
     private Token targetToken;
+    private String previousToken;
 
     private int numberOfMoves = 0;
     private boolean isGameWon = false;
+
+    private Player playerTurn;
 
     public Game(GameController gameController, List<Player> players) {
         this.gameController = gameController;
@@ -70,13 +74,17 @@ public class Game {
 
         if (gameController.textFieldPlayer2.getText().equals("0") && !gameController.textFieldPlayer1.getText().equals("0")){
             numberOfShotsExpected = n1;
+            setPlayerTurn(players.get(0));
         }else if (!gameController.textFieldPlayer2.getText().equals("0") && gameController.textFieldPlayer1.getText().equals("0")){
             numberOfShotsExpected = n2;
+            setPlayerTurn(players.get(1));
         }else if (!gameController.textFieldPlayer2.getText().equals("0") && !gameController.textFieldPlayer1.getText().equals("0")){
             if (n1 < n2 && n1 != 0){
                 numberOfShotsExpected = n1;
+                setPlayerTurn(players.get(0));
             }else if (n2 < n1 && n2 != 0){
                 numberOfShotsExpected = n2;
+                setPlayerTurn(players.get(1));
             }
         }
         return numberOfShotsExpected;
@@ -86,9 +94,16 @@ public class Game {
         this.numberOfShotsExpected = numberOfShotsExpected;
     }
 
+    public Player getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(Player playerTurn) {
+        this.playerTurn = playerTurn;
+    }
+
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
     public void onRobotClick(int x, int y, Robot[][] robots){
-        System.out.println("Board x = " + y + "  y = " + x);
         Position containedPosition = new Position(x, y);
 
         if (robots[y][x] != null){
@@ -102,7 +117,6 @@ public class Game {
                     setNumberOfMoves(getNumberOfMoves() + 1);  // On incrémente le nombre de coups
                     movePiece(selectedPiece, new Position(x, y), robots);
                     selectedPiece = null;
-                    System.out.println("Nombre de coups : " + getNumberOfMoves());
                 }
             }
         }
@@ -110,10 +124,17 @@ public class Game {
 
     // On met à jour l'écran
    private void update(Robot[][] robots) {
+        boolean n = true;
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
                 if (robots[i][j] != null){
-                    gameController.setRobot(i, j, robots[i][j]);
+                    if (numberOfMoves > getNumberOfShotsExpected(gameController.numberOfShotsPlayer1, gameController.numberOfShotsPlayer2) && n){
+                        updateGridAfterLoss(robots);
+                        n = false;
+                        break;
+                    }else{
+                        gameController.setRobot(i, j, robots[i][j]);
+                    }
                 }
                else {
                    gameController.clearPiece(i, j, robots[i][j]);
@@ -126,6 +147,7 @@ public class Game {
                 gameController.setPossibleMove(p);
             }
         }
+
         isGameWon(robots);
         gameController.updateScreen();
    }
@@ -151,7 +173,6 @@ public class Game {
    public void randomColorGame(){
         Random random = new Random();
         int color = random.nextInt(4);
-        System.out.println(color);
         switch(color){
             case 0 -> colorGame = "R";
             case 1 -> colorGame = "G";
@@ -164,7 +185,6 @@ public class Game {
    public void randomPatternGame(){
         Random random = new Random();
         int pattern = random.nextInt(4);
-        System.out.println(pattern);
         switch(pattern){
             case 0 -> patternGame = "M";
             case 1 -> patternGame = "P";
@@ -197,15 +217,21 @@ public class Game {
    }
 
    // On définit le jeton cible
-   public void defineTarget(){
-       for (int i = 0; i<16; i++){
+   public void defineTarget(Robot[][] robots){
+        for (int i = 0; i<16; i++){
            for (int j = 0; j<16; j++){
                if (gameController.getTokens()[i][j] != null) {
                    Token token = gameController.getTokens()[i][j];
-                   if (token.getName().equals(getSignatureTargetToken()) && gameController.tokenList.contains(token)) {
+                   if (token.getName().equals(getSignatureTargetToken()) && gameController.tokenList.contains(token) && robots[i][j] == null && !token.getName().equals(previousToken)) {
                        this.targetToken = token;// Si les noms correspondent, on définit la cible
                        this.targetToken.setTarget(true);
+                       System.out.println("On définit la cible");
+                       System.out.println("Cible : " + targetToken.getName());
                        break;
+                   }
+                   else if (token.getName().equals(getSignatureTargetToken()) && !gameController.tokenList.contains(token)){
+                       randomPatternGame();
+                       randomColorGame();
                    }
                }
            }
@@ -226,11 +252,17 @@ public class Game {
                     if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig() && robot.getColor() == targetToken.getColor()
                             && numberOfMoves <= getNumberOfShotsExpected(gameController.numberOfShotsPlayer1, gameController.numberOfShotsPlayer2)) {
                         System.out.println("Partie gagnée !");
+                        previousToken = targetToken.getName();
                         setGameWon(true);
-                        players.get(0).setScore(players.get(0).getScore() + 1);
+                        getPlayerTurn().setScore(getPlayerTurn().getScore() + 1);
                         setNumberOfMoves(0);  // On incrémente le nombre de coups
                         updateGridAfterWin(robots);
-                        setGameWon(false);
+                        gameController.validateShotsButton.setDisable(false);
+                        gameController.textFieldPlayer2.setDisable(false);
+                        gameController.textFieldPlayer1.setDisable(false);
+                        gameController.textFieldPlayer2.setText("0");
+                        gameController.textFieldPlayer1.setText("0");
+                        gameController.gridPane.setDisable(true);
                         break;
                     }
                 }
@@ -243,19 +275,44 @@ public class Game {
             for (int j = 0; j<16; j++){
                 if (gameController.getTokens()[i][j] != null) {
                     Token token = gameController.getTokens()[i][j];
-                    if (token.isTarget()) {
-                        gameController.clearToken(i,j, token);
-                        gameController.tokenList.remove(token);
+                    if (token.isTarget() && isGameWon() ) {
+                        System.out.println("---- update grid after a win ----");
                         token.setTarget(false);
+                        gameController.clearToken(i,j, token);
+                        System.out.println("clear token : " + i + "  " + j);
+                        gameController.tokenList.remove(token);
                         randomPatternGame();
                         randomColorGame();
-                        defineTarget();
-                        System.out.println(targetToken.getName());
+                        defineTarget(robots);
+                        System.out.println("Ancienne cible : " + previousToken);
                         gameController.setCenterTargetImages();
+                        setGameWon(false);
                         break;
                     }
                 }
             }
         }
+    }
+
+    public void updateGridAfterLoss(Robot[][] robots){
+        for (int k = 0; k < 16; k++) {
+            for (int m = 0; m < 16; m++) {
+                if (robots[m][k] != null) {
+                    gameController.clearPiece(m, k, robots[m][k]);
+                    robots[m][k] = null;
+                }
+            }
+        }
+        gameController.addRobotToBoard(ColorRobot.RED);
+        gameController.addRobotToBoard(ColorRobot.GREEN);
+        gameController.addRobotToBoard(ColorRobot.BLUE);
+        gameController.addRobotToBoard(ColorRobot.YELLOW);
+
+        gameController.validateShotsButton.setDisable(false);
+        gameController.textFieldPlayer2.setDisable(false);
+        gameController.textFieldPlayer1.setDisable(false);
+        gameController.textFieldPlayer2.setText("0");
+        gameController.textFieldPlayer1.setText("0");
+        gameController.gridPane.setDisable(true);
     }
 }
