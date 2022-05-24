@@ -124,12 +124,12 @@ public class GameController {
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);*/
 
         addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
-        addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 15, 5);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 15, 14);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 4, 15);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 3, 15);
         addTokenToGrid(ColorRobot.RED, Pattern.STAR, 2, 15);
         addTokenToGrid(ColorRobot.BLUE, Pattern.MOON, 1, 15);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 0, 15);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 0, 14);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.SUN, 15, 5);
         addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 0, 0);
         addTokenToGrid(ColorRobot.RED, Pattern.MOON, 15, 4);

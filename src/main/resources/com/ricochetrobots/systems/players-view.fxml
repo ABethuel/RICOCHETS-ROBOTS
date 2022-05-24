@@ -15,41 +15,61 @@
         <URL value="@style.css" />
     </stylesheets>
    <children>
-      <Pane layoutX="70.0" layoutY="52.0" prefHeight="369.0" prefWidth="583.0" styleClass="pane_box">
+      <Pane layoutX="70.0" layoutY="39.0" prefHeight="408.0" prefWidth="583.0" styleClass="pane_box">
          <children>
             <Label layoutX="208.0" layoutY="29.0" text="PARAMETRES DU JEU" textFill="RED">
                <font>
                   <Font name="Candara Bold" size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="choiceNumberOfPlayers" layoutX="252.0" layoutY="97.0" prefHeight="25.0" prefWidth="80.0" />
-            <Label layoutX="234.0" layoutY="67.0" text="Nombre de joueurs" textFill="#001dff">
+            <ChoiceBox fx:id="choiceNumberOfPlayers" layoutX="253.0" layoutY="90.0" prefHeight="25.0" prefWidth="80.0" />
+            <Label layoutX="234.0" layoutY="64.0" text="Nombre de joueurs" textFill="#001dff">
                <font>
                   <Font name="Candara Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="validateNumberButton" defaultButton="true" layoutX="265.0" layoutY="134.0" mnemonicParsing="false" onAction="#validateNumberOnClick" text="Valider" />
-            <VBox fx:id="vBoxPlayer1" alignment="TOP_CENTER" layoutX="235.0" layoutY="185.0" prefHeight="61.0" prefWidth="115.0" visible="false">
+            <Button fx:id="validateNumberButton" defaultButton="true" layoutX="265.0" layoutY="122.0" mnemonicParsing="false" onAction="#validateNumberOnClick" prefHeight="17.0" prefWidth="56.0" text="Valider" />
+            <VBox fx:id="vBoxPlayer1" alignment="TOP_CENTER" layoutX="228.0" layoutY="235.0" prefHeight="61.0" prefWidth="130.0" visible="false">
                <children>
-                  <Label contentDisplay="CENTER" text="Joueur 1" textFill="#1100ff">
+                  <Label contentDisplay="CENTER" text="Joueur 1" textFill="#1100ff" visible="false">
                      <font>
                         <Font name="Candara Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textFieldPlayer1" prefHeight="25.0" prefWidth="108.0" />
+                  <TextField fx:id="textFieldPlayer1" prefHeight="25.0" prefWidth="153.0" visible="false" />
                </children>
             </VBox>
-            <VBox fx:id="vBoxPlayer2" alignment="TOP_CENTER" layoutX="234.0" layoutY="237.0" prefHeight="61.0" prefWidth="115.0" visible="false">
+            <VBox fx:id="vBoxPlayer2" alignment="TOP_CENTER" layoutX="226.0" layoutY="289.0" prefHeight="61.0" prefWidth="130.0" visible="false">
                <children>
-                  <Label contentDisplay="CENTER" text="Joueur 2" textFill="#1100ff">
+                  <Label contentDisplay="CENTER" text="Joueur 2" textFill="#1100ff" visible="false">
                      <font>
                         <Font name="Candara Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textFieldPlayer2" prefHeight="25.0" prefWidth="108.0" />
+                  <TextField fx:id="textFieldPlayer2" prefHeight="25.0" prefWidth="129.0" visible="false" />
                </children>
             </VBox>
-            <Button fx:id="startGameButton" layoutX="243.0" layoutY="307.0" mnemonicParsing="false" onAction="#startGameOnClick" text="Lancer la partie" visible="false" wrapText="true" />
+            <Button fx:id="startGameButton" layoutX="243.0" layoutY="350.0" mnemonicParsing="false" onAction="#startGameOnClick" text="Lancer la partie" visible="false" wrapText="true" />
+            <VBox fx:id="vBoxPlayer3" alignment="TOP_CENTER" layoutX="226.0" layoutY="167.0" prefHeight="61.0" prefWidth="130.0" visible="false">
+               <children>
+                  <Label contentDisplay="CENTER" text="Score à atteindre" textFill="#1100ff" visible="false">
+                     <font>
+                        <Font name="Candara Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="151.0" text="Saisir un nombre entre 1 et 16" visible="false">
+                     <font>
+                        <Font name="System Bold" size="9.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textFieldScore" onKeyTyped="#checkValue" prefHeight="25.0" prefWidth="115.0" visible="false" />
+               </children>
+            </VBox>
+            <Label fx:id="textWarningScore" layoutX="86.0" layoutY="385.0" text="Veuillez saisir un nombre entre 1 et 16 pour le score à atteindre..." textFill="RED" visible="false">
+               <font>
+                  <Font name="Candara Bold" size="15.0" />
+               </font>
+            </Label>
          </children></Pane>
    </children>
 

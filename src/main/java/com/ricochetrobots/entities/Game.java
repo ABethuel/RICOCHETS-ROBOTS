@@ -218,7 +218,21 @@ public class Game {
 
    // On définit le jeton cible
    public void defineTarget(Robot[][] robots){
-        for (int i = 0; i<16; i++){
+
+        Random random = new Random();
+        if (gameController.tokenList.size() > 0) { // Si il y a des tokens dans la liste
+            int number = random.nextInt(gameController.tokenList.size()); // On définit au hasard un jeton dans la liste
+            Token randomToken = gameController.tokenList.get(number);
+            if (robots[randomToken.getLig()][randomToken.getCol()] == null){    // Si le jeton tiré ne se trouve pas sous un robot
+                this.targetToken = randomToken;
+                targetToken.setTarget(true);
+                System.out.println("On définit la cible");
+                System.out.println("Cible : " + targetToken.getName());
+            }else{
+                defineTarget(robots);
+            }
+        }
+        /*for (int i = 0; i<16; i++){
            for (int j = 0; j<16; j++){
                if (gameController.getTokens()[i][j] != null) {
                    Token token = gameController.getTokens()[i][j];
@@ -235,7 +249,7 @@ public class Game {
                    }
                }
            }
-       }
+       }*/
    }
 
     public Token getTargetToken(){
