@@ -31,41 +31,41 @@
             <Button fx:id="validateNumberButton" defaultButton="true" layoutX="265.0" layoutY="122.0" mnemonicParsing="false" onAction="#validateNumberOnClick" prefHeight="17.0" prefWidth="56.0" text="Valider" />
             <VBox fx:id="vBoxPlayer1" alignment="TOP_CENTER" layoutX="228.0" layoutY="235.0" prefHeight="61.0" prefWidth="130.0" visible="false">
                <children>
-                  <Label contentDisplay="CENTER" text="Joueur 1" textFill="#1100ff" visible="false">
+                  <Label contentDisplay="CENTER" text="Joueur 1" textFill="#1100ff">
                      <font>
                         <Font name="Candara Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textFieldPlayer1" prefHeight="25.0" prefWidth="153.0" visible="false" />
+                  <TextField fx:id="textFieldPlayer1" prefHeight="25.0" prefWidth="153.0" />
                </children>
             </VBox>
             <VBox fx:id="vBoxPlayer2" alignment="TOP_CENTER" layoutX="226.0" layoutY="289.0" prefHeight="61.0" prefWidth="130.0" visible="false">
                <children>
-                  <Label contentDisplay="CENTER" text="Joueur 2" textFill="#1100ff" visible="false">
+                  <Label contentDisplay="CENTER" text="Joueur 2" textFill="#1100ff">
                      <font>
                         <Font name="Candara Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textFieldPlayer2" prefHeight="25.0" prefWidth="129.0" visible="false" />
+                  <TextField fx:id="textFieldPlayer2" prefHeight="25.0" prefWidth="129.0" />
                </children>
             </VBox>
-            <Button fx:id="startGameButton" layoutX="243.0" layoutY="350.0" mnemonicParsing="false" onAction="#startGameOnClick" text="Lancer la partie" visible="false" wrapText="true" />
+            <Button fx:id="startGameButton" layoutX="245.0" layoutY="344.0" mnemonicParsing="false" onAction="#startGameOnClick" text="Lancer la partie" visible="false" wrapText="true" />
             <VBox fx:id="vBoxPlayer3" alignment="TOP_CENTER" layoutX="226.0" layoutY="167.0" prefHeight="61.0" prefWidth="130.0" visible="false">
                <children>
-                  <Label contentDisplay="CENTER" text="Score à atteindre" textFill="#1100ff" visible="false">
+                  <Label contentDisplay="CENTER" text="Score à atteindre" textFill="#1100ff">
                      <font>
                         <Font name="Candara Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="17.0" prefWidth="151.0" text="Saisir un nombre entre 1 et 16" visible="false">
+                  <Label prefHeight="17.0" prefWidth="151.0" text="Saisir un nombre entre 1 et 16">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textFieldScore" onKeyTyped="#checkValue" prefHeight="25.0" prefWidth="115.0" visible="false" />
+                  <TextField fx:id="textFieldScore" prefHeight="25.0" prefWidth="115.0" />
                </children>
             </VBox>
-            <Label fx:id="textWarningScore" layoutX="86.0" layoutY="385.0" text="Veuillez saisir un nombre entre 1 et 16 pour le score à atteindre..." textFill="RED" visible="false">
+            <Label layoutX="88.0" layoutY="376.0" text="Veuillez saisir un nombre entre 1 et 16 pour le score à atteindre..." textFill="RED" visible="false">
                <font>
                   <Font name="Candara Bold" size="15.0" />
                </font>

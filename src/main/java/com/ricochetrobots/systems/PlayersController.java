@@ -82,6 +82,7 @@ public class PlayersController {
             vBoxPlayer1.setVisible(true);
             vBoxPlayer2.setVisible(true);
         }
+        vBoxPlayer3.setVisible(true);
         startGameButton.setVisible(true);
         choiceNumberOfPlayers.setDisable(true);
     }
