@@ -116,6 +116,11 @@
             </Label>
          </children>
       </HBox>
+      <Label layoutX="96.0" layoutY="79.0" text="Scores : " textFill="#1d109c">
+         <font>
+            <Font name="Candara Bold" size="18.0" />
+         </font>
+      </Label>
     </children>
 
 </AnchorPane>

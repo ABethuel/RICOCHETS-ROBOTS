@@ -222,16 +222,16 @@ public class Game {
            for (int j = 0; j<16; j++){
                if (gameController.getTokens()[i][j] != null) {
                    Token token = gameController.getTokens()[i][j];
-                   if (token.getName().equals(getSignatureTargetToken()) && gameController.tokenList.contains(token) && robots[i][j] == null && !token.getName().equals(previousToken)) {
-                       this.targetToken = token;// Si les noms correspondent, on définit la cible
-                       this.targetToken.setTarget(true);
-                       System.out.println("On définit la cible");
-                       System.out.println("Cible : " + targetToken.getName());
-                       break;
-                   }
-                   else if (token.getName().equals(getSignatureTargetToken()) && !gameController.tokenList.contains(token)){
-                       randomPatternGame();
-                       randomColorGame();
+                   if (gameController.tokenList.contains(token)) {
+                       if (token.getName().equals(getSignatureTargetToken()) && gameController.tokenList.contains(token) && robots[i][j] == null && !token.getName().equals(previousToken)) {
+                           this.targetToken = token;// Si les noms correspondent, on définit la cible
+                           this.targetToken.setTarget(true);
+                           System.out.println("On définit la cible");
+                           System.out.println("Cible : " + targetToken.getName());
+                       } else if (token.getName().equals(getSignatureTargetToken()) && !gameController.tokenList.contains(token)) {
+                           randomPatternGame();
+                           randomColorGame();
+                       }
                    }
                }
            }
