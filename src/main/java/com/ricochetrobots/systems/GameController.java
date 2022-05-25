@@ -84,7 +84,7 @@ public class GameController {
         }
 
         // On ajoute les 16 tokens sur le plateau
-        /*addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
+        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
@@ -99,9 +99,9 @@ public class GameController {
         addTokenToGrid(ColorRobot.RED, Pattern.SUN, 14, 12);
         addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 13, 9);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);*/
+        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
 
-        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
+        /*addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 15, 5);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 4, 15);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 3, 15);
@@ -116,10 +116,51 @@ public class GameController {
         addTokenToGrid(ColorRobot.RED, Pattern.SUN, 15, 1);
         addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 15, 0);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 15, 15);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 0, 15);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 0, 15);*/
 
         // On met en place les murs
-        addWallToBoard(Orientation.EAST, 10,14);
+        addWallToBoard(Orientation.EAST, 0,4);
+        addWallToBoard(Orientation.EAST, 0,10);
+        addWallToBoard(Orientation.EAST, 2,5);
+        addWallToBoard(Orientation.NORTH, 3,5);
+        addWallToBoard(Orientation.WEST, 1,14);
+        addWallToBoard(Orientation.NORTH, 2,13);
+        addWallToBoard(Orientation.WEST, 3,9);
+        addWallToBoard(Orientation.SOUTH, 2,9);
+        addWallToBoard(Orientation.SOUTH, 4,0);
+        addWallToBoard(Orientation.SOUTH, 10,0);
+        addWallToBoard(Orientation.SOUTH, 15,4);
+        addWallToBoard(Orientation.SOUTH, 15,11);
+        addWallToBoard(Orientation.SOUTH, 1,15);
+        addWallToBoard(Orientation.SOUTH, 11,15);
+        addWallToBoard(Orientation.SOUTH, 3,2);
+        addWallToBoard(Orientation.EAST, 4,2);
+        addWallToBoard(Orientation.EAST, 4,14);
+        addWallToBoard(Orientation.SOUTH, 3,14);
+        addWallToBoard(Orientation.EAST, 5,6);
+        addWallToBoard(Orientation.NORTH, 6,7);
+        addWallToBoard(Orientation.EAST, 6,0);
+        addWallToBoard(Orientation.SOUTH, 5,1);
+        addWallToBoard(Orientation.EAST, 6,11);
+        addWallToBoard(Orientation.NORTH, 7,12);
+        addWallToBoard(Orientation.EAST, 9,3);
+        addWallToBoard(Orientation.NORTH, 10,4);
+        addWallToBoard(Orientation.EAST, 9,12);
+        addWallToBoard(Orientation.NORTH, 10,13);
+        addWallToBoard(Orientation.EAST, 10,5);
+        addWallToBoard(Orientation.SOUTH, 9,6);
+        addWallToBoard(Orientation.EAST, 11,9);
+        addWallToBoard(Orientation.NORTH, 12,9);
+        addWallToBoard(Orientation.SOUTH, 11,7);
+        addWallToBoard(Orientation.EAST, 12,7);
+        addWallToBoard(Orientation.NORTH, 13,1);
+        addWallToBoard(Orientation.WEST, 13,2);
+        addWallToBoard(Orientation.SOUTH, 14,3);
+        addWallToBoard(Orientation.WEST, 14,4);
+        addWallToBoard(Orientation.WEST, 14,10);
+        addWallToBoard(Orientation.SOUTH, 13,10);
+        addWallToBoard(Orientation.NORTH, 13,14);
+        addWallToBoard(Orientation.WEST, 13,15);
 
         // On définit le jeton cible
         game.defineTarget();
@@ -316,7 +357,7 @@ public class GameController {
     public void setWall(int x, int y, Wall wall) {
         ImageView imageWall = (ImageView) board[x][y].getChildren().get(3);
         System.out.println(urlImage +"Wall/" + wall.getImageSignature() + ".png");
-        imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 35, 35, true, true));
+        imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 37.5, 37.5, false, true));
     }
 
 }
