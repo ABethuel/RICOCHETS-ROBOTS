@@ -61,13 +61,13 @@
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="280.0" text="Nombre de coups possibles">
+      <Label layoutX="68.0" layoutY="359.0" text="Nombre de coups possibles">
          <font>
             <Font name="Candara Bold" size="14.0" />
          </font>
       </Label>
       <Label layoutX="86.0" layoutY="342.0" />
-      <HBox fx:id="hBoxPlayer1" alignment="CENTER" layoutX="32.0" layoutY="318.0" prefHeight="34.0" prefWidth="242.0">
+      <HBox fx:id="hBoxPlayer1" alignment="CENTER" layoutX="31.0" layoutY="388.0" prefHeight="34.0" prefWidth="242.0">
          <children>
             <Label text="Joueur 1    " textFill="#003cff">
                <font>
@@ -77,7 +77,7 @@
             <TextField fx:id="textFieldPlayer1" onKeyTyped="#onSetNumber" text="0" />
          </children>
       </HBox>
-      <HBox fx:id="hBoxPlayer2" alignment="CENTER" layoutX="31.0" layoutY="354.0" prefHeight="34.0" prefWidth="242.0">
+      <HBox fx:id="hBoxPlayer2" alignment="CENTER" layoutX="29.0" layoutY="422.0" prefHeight="34.0" prefWidth="242.0">
          <children>
             <Label text="Joueur 2    " textFill="#003cff">
                <font>
@@ -87,8 +87,8 @@
             <TextField fx:id="textFieldPlayer2" onKeyTyped="#onSetNumber" text="0" />
          </children>
       </HBox>
-      <Button fx:id="validateShotsButton" defaultButton="true" layoutX="41.0" layoutY="412.0" mnemonicParsing="false" onAction="#validateShotsOnClick" prefHeight="13.0" prefWidth="108.0" text="Valider" />
-      <HBox alignment="CENTER" layoutX="53.0" layoutY="154.0" prefHeight="25.0" prefWidth="149.0">
+      <Button fx:id="validateShotsButton" defaultButton="true" layoutX="42.0" layoutY="466.0" mnemonicParsing="false" onAction="#validateShotsOnClick" prefHeight="13.0" prefWidth="108.0" text="Valider" />
+      <HBox alignment="CENTER" layoutX="47.0" layoutY="295.0" prefHeight="25.0" prefWidth="149.0">
          <children>
             <Label fx:id="namePlayer2" text="Score Joueur 2 : " textFill="#002fff">
                <font>
@@ -102,7 +102,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="53.0" layoutY="117.0" prefHeight="25.0" prefWidth="149.0">
+      <HBox alignment="CENTER" layoutX="47.0" layoutY="270.0" prefHeight="25.0" prefWidth="149.0">
          <children>
             <Label fx:id="namePlayer1" text="Score Joueur 1 : " textFill="#002fff">
                <font>
@@ -116,9 +116,28 @@
             </Label>
          </children>
       </HBox>
-      <Label layoutX="96.0" layoutY="79.0" text="Scores : " textFill="#1d109c">
+      <Label layoutX="90.0" layoutY="234.0" text="Scores : " textFill="#1d109c">
          <font>
             <Font name="Candara Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="31.0" layoutY="175.0" prefHeight="25.0" prefWidth="182.0">
+         <children>
+            <Label text="Score à atteindre :  " textFill="#1d109c">
+               <font>
+                  <Font name="Candara Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="scoreToReachLabel" text=" 0" textFill="RED">
+               <font>
+                  <Font name="Candara Bold" size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="numberOfShotsPlayedLabel" layoutX="585.0" layoutY="659.0" text="Nombre de coups joués : 0">
+         <font>
+            <Font name="Candara Bold" size="16.5" />
          </font>
       </Label>
     </children>

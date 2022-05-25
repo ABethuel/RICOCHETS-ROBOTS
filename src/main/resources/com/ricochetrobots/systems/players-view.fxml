@@ -62,10 +62,10 @@
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textFieldScore" prefHeight="25.0" prefWidth="115.0" />
+                  <TextField fx:id="textFieldScore" onKeyTyped="#checkValue" prefHeight="25.0" prefWidth="115.0" />
                </children>
             </VBox>
-            <Label layoutX="88.0" layoutY="376.0" text="Veuillez saisir un nombre entre 1 et 16 pour le score à atteindre..." textFill="RED" visible="false">
+            <Label fx:id="textWarningScore" layoutX="88.0" layoutY="376.0" text="Veuillez saisir un nombre entre 1 et 16 pour le score à atteindre..." textFill="RED" visible="false">
                <font>
                   <Font name="Candara Bold" size="15.0" />
                </font>

@@ -1,6 +1,8 @@
 package com.ricochetrobots.systems;
 
 import com.ricochetrobots.entities.Player;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,6 +40,7 @@ public class PlayersController {
     private int numberOfPlayers;
     private String namePlayer1;
     private String namePlayer2;
+    private int scoreToReach;
 
     @FXML
     public void initialize(){
@@ -88,17 +91,24 @@ public class PlayersController {
     }
 
     public void startGameOnClick(ActionEvent actionEvent) throws IOException {
-        newPlayer(new Player(textFieldPlayer1.getText()));
-        if (textFieldPlayer2.getText() != null && !Objects.equals(textFieldPlayer2.getText(), "") && !Objects.equals(textFieldPlayer2.getText(), " ")){
-            newPlayer(new Player(textFieldPlayer2.getText()));
-        }
-        System.out.println(players);
-        if (textFieldPlayer1.getText() != null && !Objects.equals(textFieldPlayer1.getText(), "") && !Objects.equals(textFieldPlayer1.getText(), " ")) {
-            MainApplication.stage.setUserData(players);
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("game-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-            MainApplication.stage.setScene(scene);
-            MainApplication.stage.show();
+        if (scoreToReach <= 16 && scoreToReach >= 1){
+            newPlayer(new Player(textFieldPlayer1.getText()));
+            if (textFieldPlayer2.getText() != null && !Objects.equals(textFieldPlayer2.getText(), "") && !Objects.equals(textFieldPlayer2.getText(), " ")){
+                newPlayer(new Player(textFieldPlayer2.getText()));
+            }
+            System.out.println(players);
+            if (textFieldPlayer1.getText() != null && !Objects.equals(textFieldPlayer1.getText(), "") && !Objects.equals(textFieldPlayer1.getText(), " ")) {
+                List<Object> dataToTransmit = new ArrayList <Object>();
+                dataToTransmit.add(players);
+                dataToTransmit.add(scoreToReach);
+                MainApplication.stage.setUserData(dataToTransmit);
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("game-view.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+                MainApplication.stage.setScene(scene);
+                MainApplication.stage.show();
+            }
+        }else {
+            textWarningScore.setVisible(true);
         }
     }
 
@@ -106,6 +116,17 @@ public class PlayersController {
         players.add(player);
     }
 
+    @FXML
     public void checkValue(KeyEvent keyEvent) {
+        textFieldScore.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textFieldScore.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        scoreToReach = Integer.parseInt(textFieldScore.getText());
     }
 }
