@@ -12,10 +12,10 @@ public enum Orientation {
             orientation = "T";
         }
         else if (this == SOUTH){
-            orientation = "T";
+            orientation = "B";
         }
         else if (this == EAST){
-            orientation = "L";
+            orientation = "R";
         }
         else if (this == WEST){
             orientation = "L";

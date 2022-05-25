@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="RICOCHETS-ROBOTS" options="--add-exports java.desktop/com.sun.java.swing.plaf.motif=com.example.ricochetsrobots" />
+      <module name="RICOCHETS-ROBOTS" options="" />
     </option>
   </component>
 </project>
