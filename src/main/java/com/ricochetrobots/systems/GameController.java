@@ -4,15 +4,16 @@ import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Orientation;
 import com.ricochetrobots.components.Pattern;
 import com.ricochetrobots.components.Position;
-import com.ricochetrobots.entities.Game;
-import com.ricochetrobots.entities.Robot;
-import com.ricochetrobots.entities.Token;
-import com.ricochetrobots.entities.Wall;
+import com.ricochetrobots.entities.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,14 +21,34 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
+
+    private List<Object> dataTransmitted = (List<Object>) MainApplication.stage.getUserData();
+    private final List<Player> players = (List<Player>) dataTransmitted.get(0);
+    public List<Token> tokenList = new ArrayList<Token>();
+    private int scoreToReach = (int) dataTransmitted.get(1);
+
     @FXML
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
     public Label targetSentenceText;
-    public ImageView targetImage;
+    public HBox hBoxPlayer1;
+    public TextField textFieldPlayer1;
+    public HBox hBoxPlayer2;
+    public TextField textFieldPlayer2;
+    public Button validateShotsButton;
+    public Label namePlayer2;
+    public Label textScorePlayer2;
+    public Label namePlayer1;
+    public Label textScorePlayer1;
+    public Label scoreToReachLabel;
+    public Label numberOfShotsPlayedLabel;
+    public Label maxNumberOfShotsLabel;
+
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
     private Wall[][] walls = new Wall[16][16];
@@ -37,10 +58,18 @@ public class GameController {
     private String colorTargetText;
     private String patternTargetText;
 
-    private Game game = new Game(this);
+    private Game game = new Game(this, players, scoreToReach);
+    public int numberOfShotsPlayer1;
+    public int numberOfShotsPlayer2;
+    public  Player playerTurn;
+
     @FXML
     public void initialize() {
 
+        gridPane.setDisable(true);
+        setVisibilityHBox();
+        scoreToReachLabel.setText("" + game.getScoreToReach());
+        maxNumberOfShotsLabel.setVisible(false);
         // On affiche les cellule sur le plateau de jeu
         Insets mars_pads = new Insets(0, 0, 0, 0);
         gridPane.setAlignment(Pos.CENTER);
@@ -78,13 +107,19 @@ public class GameController {
                 if((i != 8 && i != 7) || (j != 7 && j != 8)){
                     this.board[i][j] = pane;
                     this.gridPane.add(pane, i, j);
-                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(finalJ, finalI, this.robots));
+                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                        try {
+                            game.onRobotClick(finalJ, finalI, this.robots);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
                 }
             }
         }
 
         // On ajoute les 16 tokens sur le plateau
-        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
+       /* addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
@@ -101,7 +136,7 @@ public class GameController {
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);
 
-        /*addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
+        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 15, 5);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 4, 15);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 3, 15);
@@ -163,7 +198,7 @@ public class GameController {
         addWallToBoard(Orientation.WEST, 13,15);
 
         // On définit le jeton cible
-        game.defineTarget();
+        game.defineTarget(robots);
 
         // On ajoute les robots
         addRobotToBoard(ColorRobot.RED);
@@ -225,11 +260,20 @@ public class GameController {
         Token token = new Token(color, pattern, x, y);
         this.tokens[token.getLig()][token.getCol()] = token;
         setToken(token.getLig(), token.getCol(), token);
+        tokenList.add(token);
     }
 
     public void setToken(int x, int y, Token token) {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
         imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".png", 28,28, true, true));
+    }
+
+    // On nettoie un token si un joueur gagne une partie
+    public void clearToken(int x, int y, Token token) {
+        if (board[x][y] != null) {
+            ImageView imageToken = (ImageView) board[x][y].getChildren().get(1);
+            imageToken.setImage(null);
+        }
     }
 
     public Token[][] getTokens() {
@@ -251,19 +295,6 @@ public class GameController {
             }
         }
         return targetToken;
-    }
-
-    public void setTargetImage(){
-        for (int i = 0; i<16; i++){
-            for (int j = 0; j<16; j++){
-                if (getTokens()[i][j] != null) {
-                    Token token = getTokens()[i][j];
-                    if (token.isTarget()) {          // Si les noms correspondent, on définit la cible
-                        targetImage.setImage(new Image(urlImage + "tokens/" + token.getImageSignature() + ".png"));
-                    }
-                }
-            }
-        }
     }
 
     public void setCenterTargetImages(){
@@ -313,7 +344,6 @@ public class GameController {
             }
         }
         return colorTargetText;
-
     }
 
     public String getPatternTargetText(){
@@ -342,9 +372,19 @@ public class GameController {
         targetSentenceText.setText("Déplacer le robot " + color + " jusqu'à sa cible " + pattern + " !");
     }
 
+    // On met à jour certaines données affichées à l'écran
     public void updateScreen(){
-        setTargetImage();
         setTargetSentenceText();
+        // Nom et score des joueurs
+        namePlayer1.setText(players.get(0).getName() + " : ");
+        textScorePlayer1.setText(" " + players.get(0).getScore());
+
+        if (players.size() > 1) {
+            namePlayer2.setText(players.get(1).getName() + " : ");
+            textScorePlayer2.setText(" " + players.get(1).getScore());
+        }
+
+
     }
 
     public void addWallToBoard(Orientation orientation, int x, int y){
@@ -356,8 +396,50 @@ public class GameController {
     // On définit le robot
     public void setWall(int x, int y, Wall wall) {
         ImageView imageWall = (ImageView) board[x][y].getChildren().get(3);
-        System.out.println(urlImage +"Wall/" + wall.getImageSignature() + ".png");
         imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 37.5, 37.5, false, true));
     }
 
+    public void validateShotsOnClick(ActionEvent actionEvent) {
+        gridPane.setDisable(false);
+        game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2);
+        System.out.println("Coups attendus : " + game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2));
+
+        textFieldPlayer2.setDisable(true);
+        textFieldPlayer1.setDisable(true);
+        validateShotsButton.setDisable(true);
+    }
+
+    @FXML
+    public void onSetNumber() {
+        textFieldPlayer1.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textFieldPlayer1.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        numberOfShotsPlayer1 = Integer.parseInt(textFieldPlayer1.getText());
+
+        textFieldPlayer2.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textFieldPlayer2.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        numberOfShotsPlayer2 = Integer.parseInt(textFieldPlayer2.getText());
+    }
+
+    private void setVisibilityHBox(){
+        if (players.size() == 1){
+            hBoxPlayer2.setVisible(false);
+            namePlayer2.setVisible(false);
+            textScorePlayer2.setVisible(false);
+        }
+    }
 }
+

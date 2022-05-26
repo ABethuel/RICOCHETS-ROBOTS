@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ricochetrobots.systems.GameController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ricochetrobots.systems.GameController">
 
     <children>
         <GridPane fx:id="gridPane" layoutX="349.0" layoutY="50.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0">
@@ -55,19 +56,93 @@
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="107.0" layoutY="105.0" text="Jeton cible">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="17.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="targetImage" fitHeight="106.0" fitWidth="129.0" layoutX="100.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../assets/tokens/R_P_token.PNG" />
-         </image>
-      </ImageView>
       <Label fx:id="targetSentenceText" layoutX="506.0" layoutY="23.0" text="Déplacez le robot bleu jusqu'à sa cible étoile !">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="359.0" text="Nombre de coups possibles">
+         <font>
+            <Font name="Candara Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="86.0" layoutY="342.0" />
+      <HBox fx:id="hBoxPlayer1" alignment="CENTER" layoutX="31.0" layoutY="388.0" prefHeight="34.0" prefWidth="242.0">
+         <children>
+            <Label text="Joueur 1    " textFill="#003cff">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="textFieldPlayer1" onKeyTyped="#onSetNumber" text="0" />
+         </children>
+      </HBox>
+      <HBox fx:id="hBoxPlayer2" alignment="CENTER" layoutX="29.0" layoutY="422.0" prefHeight="34.0" prefWidth="242.0">
+         <children>
+            <Label text="Joueur 2    " textFill="#003cff">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="textFieldPlayer2" onKeyTyped="#onSetNumber" text="0" />
+         </children>
+      </HBox>
+      <Button fx:id="validateShotsButton" defaultButton="true" layoutX="42.0" layoutY="466.0" mnemonicParsing="false" onAction="#validateShotsOnClick" prefHeight="13.0" prefWidth="108.0" text="Valider" />
+      <HBox alignment="CENTER" layoutX="47.0" layoutY="295.0" prefHeight="25.0" prefWidth="149.0">
+         <children>
+            <Label fx:id="namePlayer2" text="Score Joueur 2 : " textFill="#002fff">
+               <font>
+                  <Font name="Candara Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="textScorePlayer2" text=" 0" textFill="RED">
+               <font>
+                  <Font name="Candara Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="47.0" layoutY="269.0" prefHeight="25.0" prefWidth="149.0">
+         <children>
+            <Label fx:id="namePlayer1" text="Score Joueur 1 : " textFill="#002fff">
+               <font>
+                  <Font name="Candara Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="textScorePlayer1" text=" 0" textFill="RED">
+               <font>
+                  <Font name="Candara Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label layoutX="90.0" layoutY="234.0" text="Scores : " textFill="#1d109c">
+         <font>
+            <Font name="Candara Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="31.0" layoutY="175.0" prefHeight="25.0" prefWidth="182.0">
+         <children>
+            <Label text="Score à atteindre :  " textFill="#1d109c">
+               <font>
+                  <Font name="Candara Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="scoreToReachLabel" text=" 0" textFill="RED">
+               <font>
+                  <Font name="Candara Bold" size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="numberOfShotsPlayedLabel" layoutX="585.0" layoutY="659.0" text="Nombre de coups joués : 0">
+         <font>
+            <Font name="Candara Bold" size="16.5" />
+         </font>
+      </Label>
+      <Label fx:id="maxNumberOfShotsLabel" layoutX="13.0" layoutY="523.0" text="Coups maximums pour atteindre la cible : 12">
+         <font>
+            <Font name="Candara Bold" size="15.0" />
          </font>
       </Label>
     </children>

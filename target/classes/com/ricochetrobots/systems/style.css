@@ -3,6 +3,24 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-background-size: 1000px 600px;
-
 }
+
+.background_players {
+    -fx-background-image:url('../../../assets/B1.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: 1000px 600px;
+}
+
+.pane_box {
+    -fx-background-color: white;
+}
+
+.background_endgame {
+    -fx-background-image:url('../../../assets/B4.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: 1000px 600px;
+}
+
 
