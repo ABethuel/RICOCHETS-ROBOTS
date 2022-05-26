@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="850.0" styleClass="background_endgame" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ricochetrobots.systems.EndGameController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="371.0" layoutY="73.0" text="FIN DE PARTIE" textFill="RED">
+         <font>
+            <Font name="Candara Bold" size="21.0" />
+         </font>
+      </Label>
+      <Button layoutX="370.0" layoutY="481.0" mnemonicParsing="false" onAction="#newGameOnClick" prefHeight="37.0" prefWidth="130.0" text="Nouvelle partie">
+         <effect>
+            <GaussianBlur radius="0.0" />
+         </effect>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <VBox alignment="CENTER" layoutX="306.0" layoutY="166.0" prefHeight="153.0" prefWidth="262.0">
+         <children>
+            <Label fx:id="player1" text="Joueur 1 : 0 " textFill="#e8e8e8">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Label>
+            <Label fx:id="player2" text="Joueur 2 : 0 " textFill="#e8e8e8">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="201.0" layoutY="328.0" prefHeight="40.0" prefWidth="476.0">
+         <children>
+            <Label fx:id="winner" alignment="CENTER" contentDisplay="CENTER" styleClass="border_text" text="Trucmuche est le grand vainqueur" textFill="#eeff00">
+               <font>
+                  <Font name="Candara Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="easyGame" layoutX="271.0" layoutY="400.0" text="J'ai envie de dire facile quand on est seul à jouer" textFill="#eeff00">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="330.0" layoutY="413.0" prefHeight="40.0" prefWidth="197.0">
+         <children>
+            <Label fx:id="muscleText" text="Muscle ton jeu Robert !" textFill="#eeff00">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
