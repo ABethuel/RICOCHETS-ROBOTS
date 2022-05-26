@@ -11,30 +11,32 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
-    public List<Player> players = (List<Player>) MainApplication.stage.getUserData();
+    public Label numberOfShotsPlayedLabel;
+    private List<Object> dataTransmitted = (List<Object>) MainApplication.stage.getUserData();
+    private final List<Player> players = (List<Player>) dataTransmitted.get(0);
     public List<Token> tokenList = new ArrayList<Token>();
+    private int scoreToReach = (int) dataTransmitted.get(1);
+
     @FXML
     public GridPane gridPane;
     private final Pane[][] board = new Pane[16][16];
     public Label targetSentenceText;
-
-                    public HBox hBoxPlayer1;
+    public HBox hBoxPlayer1;
     public TextField textFieldPlayer1;
     public HBox hBoxPlayer2;
     public TextField textFieldPlayer2;
@@ -43,6 +45,7 @@ public class GameController {
     public Label textScorePlayer2;
     public Label namePlayer1;
     public Label textScorePlayer1;
+    public Label scoreToReachLabel;
 
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
@@ -53,7 +56,7 @@ public class GameController {
     private String colorTargetText;
     private String patternTargetText;
 
-    private Game game = new Game(this, players);
+    private Game game = new Game(this, players, scoreToReach);
     public int numberOfShotsPlayer1;
     public int numberOfShotsPlayer2;
     public  Player playerTurn;
@@ -63,6 +66,7 @@ public class GameController {
 
         gridPane.setDisable(true);
         setVisibilityHBox();
+        scoreToReachLabel.setText("" + game.getScoreToReach());
         // On affiche les cellule sur le plateau de jeu
         Insets mars_pads = new Insets(0, 0, 0, 0);
         gridPane.setAlignment(Pos.CENTER);
@@ -100,7 +104,13 @@ public class GameController {
                 if((i != 8 && i != 7) || (j != 7 && j != 8)){
                     this.board[i][j] = pane;
                     this.gridPane.add(pane, i, j);
-                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(finalJ, finalI, this.robots));
+                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                        try {
+                            game.onRobotClick(finalJ, finalI, this.robots);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
                 }
             }
         }

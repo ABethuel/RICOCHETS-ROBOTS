@@ -3,9 +3,11 @@ package com.ricochetrobots.entities;
 import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Position;
 import com.ricochetrobots.systems.GameController;
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
+import com.ricochetrobots.systems.MainApplication;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +19,7 @@ public class Game {
     private Position selectedPiece;
     private List<Player> players;
     private int numberOfShotsExpected;
+    private int scoreToReach;
 
     private String colorGame;
     private String patternGame;
@@ -28,9 +31,10 @@ public class Game {
 
     private Player playerTurn;
 
-    public Game(GameController gameController, List<Player> players) {
+    public Game(GameController gameController, List<Player> players, int scoreToReach) {
         this.gameController = gameController;
         this.players = players;
+        this.scoreToReach = scoreToReach;
         setColorGame();
         setPatternGame();
     }
@@ -102,8 +106,12 @@ public class Game {
         this.playerTurn = playerTurn;
     }
 
+    public int getScoreToReach() {
+        return scoreToReach;
+    }
+
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
-    public void onRobotClick(int x, int y, Robot[][] robots){
+    public void onRobotClick(int x, int y, Robot[][] robots) throws IOException {
         Position containedPosition = new Position(x, y);
 
         if (robots[y][x] != null){
@@ -117,13 +125,14 @@ public class Game {
                     setNumberOfMoves(getNumberOfMoves() + 1);  // On incrémente le nombre de coups
                     movePiece(selectedPiece, new Position(x, y), robots);
                     selectedPiece = null;
+                    gameController.numberOfShotsPlayedLabel.setText("Nombre de coups joués : " + getNumberOfMoves());
                 }
             }
         }
     }
 
     // On met à jour l'écran
-   private void update(Robot[][] robots) {
+   private void update(Robot[][] robots) throws IOException {
         boolean n = true;
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
@@ -160,7 +169,7 @@ public class Game {
         else return false;
    }
 
-   private void movePiece(Position from, Position to, Robot[][] robots ) {
+   private void movePiece(Position from, Position to, Robot[][] robots ) throws IOException {
         robots[to.getY()][to.getX()] = robots[from.getY()][from.getX()];
         robots[from.getY()][from.getX()] = null;
         robots[to.getY()][to.getX()].moved();
@@ -257,7 +266,7 @@ public class Game {
     }
 
     // On vérifie si la partie est gagnée
-    public void isGameWon(Robot[][] robots) {
+    public void isGameWon(Robot[][] robots) throws IOException {
         for (int i = 0 ; i < 16; i++){
             for (int j = 0; j < 16; j++){
                 Robot robot = robots[j][i];
@@ -269,8 +278,9 @@ public class Game {
                         previousToken = targetToken.getName();
                         setGameWon(true);
                         getPlayerTurn().setScore(getPlayerTurn().getScore() + 1);
+                        endgameScreen();
                         setNumberOfMoves(0);  // On incrémente le nombre de coups
-                        updateGridAfterWin(robots);
+                        updateGridAfterWin(robots, targetToken, i, j);
                         gameController.validateShotsButton.setDisable(false);
                         gameController.textFieldPlayer2.setDisable(false);
                         gameController.textFieldPlayer1.setDisable(false);
@@ -284,28 +294,19 @@ public class Game {
         }
     }
 
-    public void updateGridAfterWin(Robot[][] robots){
-        for (int i = 0; i<16; i++){
-            for (int j = 0; j<16; j++){
-                if (gameController.getTokens()[i][j] != null) {
-                    Token token = gameController.getTokens()[i][j];
-                    if (token.isTarget() && isGameWon() ) {
-                        System.out.println("---- update grid after a win ----");
-                        token.setTarget(false);
-                        gameController.clearToken(i,j, token);
-                        System.out.println("clear token : " + i + "  " + j);
-                        gameController.tokenList.remove(token);
-                        randomPatternGame();
-                        randomColorGame();
-                        defineTarget(robots);
-                        System.out.println("Ancienne cible : " + previousToken);
-                        gameController.setCenterTargetImages();
-                        setGameWon(false);
-                        break;
-                    }
-                }
-            }
-        }
+    // On met à jour l'écran lorsqu'un joueur trouve un jeton
+    public void updateGridAfterWin(Robot[][] robots, Token targetToken, int i, int j){
+        System.out.println("---- update grid after a win ----");
+        targetToken.setTarget(false);
+        gameController.clearToken(j,i, targetToken); // On enlève le jeton trouvé de la grille
+        System.out.println("clear token : " + i + "  " + j);
+        gameController.tokenList.remove(targetToken);
+        randomPatternGame();
+        randomColorGame();
+        defineTarget(robots);
+        System.out.println("Ancienne cible : " + previousToken);
+        gameController.setCenterTargetImages();
+        setGameWon(false);
     }
 
     public void updateGridAfterLoss(Robot[][] robots){
@@ -328,5 +329,25 @@ public class Game {
         gameController.textFieldPlayer2.setText("0");
         gameController.textFieldPlayer1.setText("0");
         gameController.gridPane.setDisable(true);
+    }
+
+    public void endgameScreen() throws IOException {
+        if (players.size() == 1){
+            if (players.get(0).getScore() == getScoreToReach()){
+                MainApplication.stage.setUserData(players);
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("end-game-view.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 850, 600);
+                MainApplication.stage.setScene(scene);
+                MainApplication.stage.show();
+            }
+        }else{
+            if (players.get(0).getScore() + players.get(1).getScore() == getScoreToReach()){
+                MainApplication.stage.setUserData(players);
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("end-game-view.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 850, 600);
+                MainApplication.stage.setScene(scene);
+                MainApplication.stage.show();
+            }
+        }
     }
 }
