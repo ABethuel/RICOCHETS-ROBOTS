@@ -109,12 +109,12 @@ public class Game {
     }
 
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
-    public void onRobotClick(int x, int y, Robot[][] robots) throws IOException {
+    public void onRobotClick(int x, int y, Robot[][] robots, Wall[][] walls) throws IOException {
         Position containedPosition = new Position(x, y);
 
         if (robots[y][x] != null){
             Robot robot = robots[y][x];
-            possibleMoves = robot.getPossibleMoves(this, robots); // On récupère les mouvements potentiels d'un robot quand on clique dessus
+            possibleMoves = robot.getPossibleMoves(this, robots, walls); // On récupère les mouvements potentiels d'un robot quand on clique dessus
             selectedPiece = new Position(x, y);
             update(robots);
         }else if (selectedPiece != null){

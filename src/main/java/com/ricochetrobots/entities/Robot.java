@@ -1,6 +1,7 @@
 package com.ricochetrobots.entities;
 
 import com.ricochetrobots.components.ColorRobot;
+import com.ricochetrobots.components.Orientation;
 import com.ricochetrobots.components.Position;
 import com.ricochetrobots.systems.GameController;
 
@@ -65,15 +66,15 @@ public class Robot {
     }
 
     // On définit les zones où peuvent se déplacer les robots
-    public List<Position> getPossibleMoves(Game game, Robot[][] robots) {
+    public List<Position> getPossibleMoves(Game game, Robot[][] robots, Wall[][] walls) {
         List<Position> moves = new ArrayList<>();
         int x = getLig();
         int y = getCol();
 
         // On navigue à droite du robot
         for (int i = x + 1; i < 16; i++) {
-            if (robots[i][y] != null){ // Si il y a un robot sur la trajectoire, on arrête le programme
-                moves.add(new Position(i - 1 , y));
+            if (robots[i][y] != null ) { // Si il y a un robot sur la trajectoire, on arrête le programme
+                moves.add(new Position(i - 1, y));
                 break;
             }else{
                 if ((y == 7 || y == 8) && (x <= 6)){ // Si le robot est dans la trajectoire de l'axe du tableau
@@ -90,17 +91,30 @@ public class Robot {
 
         // On fait la même chose qu'au dessus mais à gauche du robot
         for (int i = x - 1; i >= 0; i--) {
-            if (robots[i][y] != null){
-                moves.add(new Position(i + 1 , y));
-                break;
+            if (robots[i][y] != null || (walls[i][y] != null && (walls[i][y].getOrientation() == Orientation.EAST || walls[i][y].getOrientation() == Orientation.WEST))){
+                if (robots[i][y] == null && walls[i][y] != null && walls[i][y].getOrientation() == Orientation.WEST){
+                    moves.add(new Position(i, y));
+                    System.out.println(walls[i][y].getOrientation() + "  " + Orientation.SOUTH);
+                    break;
+                }
+                else if (robots[i][y] == null && walls[i][y]!= null && walls[i][y].getOrientation() == Orientation.EAST){
+                    moves.add(new Position(i + 1 , y));
+                    System.out.println(walls[i][y].getOrientation() + "  " + Orientation.SOUTH + "oui");
+                    break;
+                }else{
+                    moves.add(new Position(i + 1 , y));
+                    break;
+                }
             }else {
                 if ((y == 7 || y == 8) && (x >= 9)) {
                     if (i == 9) {
                         moves.add(new Position(9, y));
+                        break;
                     }
                 } else {
                     if (i == 0) {
                         moves.add(new Position(0, y));
+                        break;
                     }
                 }
             }
@@ -111,6 +125,7 @@ public class Robot {
             if (robots[x][j] != null){
                 moves.add(new Position(x , j - 1));
                 break;
+
             }else{
                 if ((x == 7 || x == 8) && (y <= 6)){
                     if (j == 6) {
