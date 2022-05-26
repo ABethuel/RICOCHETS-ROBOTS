@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ricochetrobots.systems.GameController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ricochetrobots.systems.GameController">
 
     <children>
         <GridPane fx:id="gridPane" layoutX="349.0" layoutY="50.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0">
@@ -102,7 +102,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="47.0" layoutY="270.0" prefHeight="25.0" prefWidth="149.0">
+      <HBox alignment="CENTER" layoutX="47.0" layoutY="269.0" prefHeight="25.0" prefWidth="149.0">
          <children>
             <Label fx:id="namePlayer1" text="Score Joueur 1 : " textFill="#002fff">
                <font>
@@ -138,6 +138,11 @@
       <Label fx:id="numberOfShotsPlayedLabel" layoutX="585.0" layoutY="659.0" text="Nombre de coups joués : 0">
          <font>
             <Font name="Candara Bold" size="16.5" />
+         </font>
+      </Label>
+      <Label fx:id="maxNumberOfShotsLabel" layoutX="13.0" layoutY="523.0" text="Coups maximums pour atteindre la cible : 12">
+         <font>
+            <Font name="Candara Bold" size="15.0" />
          </font>
       </Label>
     </children>

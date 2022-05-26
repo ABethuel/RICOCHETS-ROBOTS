@@ -24,7 +24,6 @@ public class Game {
     private String colorGame;
     private String patternGame;
     private Token targetToken;
-    private String previousToken;
 
     private int numberOfMoves = 0;
     private boolean isGameWon = false;
@@ -72,26 +71,25 @@ public class Game {
     }
 
     public int getNumberOfShotsExpected(int n1, int n2) {
-        /*if (n1 < n2 && n1 != 0) numberOfShotsExpected = n1;  // Le nombre de coup a joué est le nombre le plus bas
-        else if (n2 < n1 && n2!= 0) numberOfShotsExpected = n2;
-        return numberOfShotsExpected;*/
-
         if (gameController.textFieldPlayer2.getText().equals("0") && !gameController.textFieldPlayer1.getText().equals("0")){
-            numberOfShotsExpected = n1;
+            setNumberOfShotsExpected(n1);
             setPlayerTurn(players.get(0));
         }else if (!gameController.textFieldPlayer2.getText().equals("0") && gameController.textFieldPlayer1.getText().equals("0")){
-            numberOfShotsExpected = n2;
+            setNumberOfShotsExpected(n2);
             setPlayerTurn(players.get(1));
         }else if (!gameController.textFieldPlayer2.getText().equals("0") && !gameController.textFieldPlayer1.getText().equals("0")){
             if (n1 < n2 && n1 != 0){
-                numberOfShotsExpected = n1;
+                setNumberOfShotsExpected(n1);
                 setPlayerTurn(players.get(0));
             }else if (n2 < n1 && n2 != 0){
-                numberOfShotsExpected = n2;
+                setNumberOfShotsExpected(n2);
                 setPlayerTurn(players.get(1));
             }
         }
+        gameController.maxNumberOfShotsLabel.setVisible(true);
+        gameController.maxNumberOfShotsLabel.setText("Coups maximums pour atteindre la cible : " + numberOfShotsExpected);
         return numberOfShotsExpected;
+
     }
 
     public void setNumberOfShotsExpected(int numberOfShotsExpected) {
@@ -275,7 +273,6 @@ public class Game {
                     if (robot.getCol() == targetToken.getCol() && robot.getLig() == targetToken.getLig() && robot.getColor() == targetToken.getColor()
                             && numberOfMoves <= getNumberOfShotsExpected(gameController.numberOfShotsPlayer1, gameController.numberOfShotsPlayer2)) {
                         System.out.println("Partie gagnée !");
-                        previousToken = targetToken.getName();
                         setGameWon(true);
                         getPlayerTurn().setScore(getPlayerTurn().getScore() + 1);
                         endgameScreen();
@@ -299,14 +296,13 @@ public class Game {
         System.out.println("---- update grid after a win ----");
         targetToken.setTarget(false);
         gameController.clearToken(j,i, targetToken); // On enlève le jeton trouvé de la grille
-        System.out.println("clear token : " + i + "  " + j);
         gameController.tokenList.remove(targetToken);
         randomPatternGame();
         randomColorGame();
         defineTarget(robots);
-        System.out.println("Ancienne cible : " + previousToken);
         gameController.setCenterTargetImages();
         setGameWon(false);
+        gameController.maxNumberOfShotsLabel.setVisible(false);
     }
 
     public void updateGridAfterLoss(Robot[][] robots){

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
-    public Label numberOfShotsPlayedLabel;
+
     private List<Object> dataTransmitted = (List<Object>) MainApplication.stage.getUserData();
     private final List<Player> players = (List<Player>) dataTransmitted.get(0);
     public List<Token> tokenList = new ArrayList<Token>();
@@ -46,6 +46,8 @@ public class GameController {
     public Label namePlayer1;
     public Label textScorePlayer1;
     public Label scoreToReachLabel;
+    public Label numberOfShotsPlayedLabel;
+    public Label maxNumberOfShotsLabel;
 
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
@@ -67,6 +69,7 @@ public class GameController {
         gridPane.setDisable(true);
         setVisibilityHBox();
         scoreToReachLabel.setText("" + game.getScoreToReach());
+        maxNumberOfShotsLabel.setVisible(false);
         // On affiche les cellule sur le plateau de jeu
         Insets mars_pads = new Insets(0, 0, 0, 0);
         gridPane.setAlignment(Pos.CENTER);
