@@ -73,9 +73,21 @@ public class Robot {
 
         // On navigue à droite du robot
         for (int i = x + 1; i < 16; i++) {
-            if (robots[i][y] != null ) { // Si il y a un robot sur la trajectoire, on arrête le programme
-                moves.add(new Position(i - 1, y));
+            if (walls[x][y] != null && (walls[x][y].getOrientation() == Orientation.EAST)){
                 break;
+            }
+            else if (robots[i][y] != null || (walls[i][y] != null && (walls[i][y].getOrientation() == Orientation.EAST || walls[i][y].getOrientation() == Orientation.WEST))){  // S'il y a un robot ou un mur sur la route du robot
+                if (robots[i][y] == null && walls[i][y] != null && walls[i][y].getOrientation() == Orientation.EAST){ // Si le mur est à droite
+                    moves.add(new Position(i, y));
+                    break;
+                }
+                else if (robots[i][y] == null && walls[i][y]!= null && walls[i][y].getOrientation() == Orientation.WEST ){ // A gauche
+                    moves.add(new Position(i - 1 , y));
+                    break;
+                }else{  // S'il n'y a pas de mur
+                    moves.add(new Position(i - 1 , y));
+                    break;
+                }
             }else{
                 if ((y == 7 || y == 8) && (x <= 6)){ // Si le robot est dans la trajectoire de l'axe du tableau
                     if (i == 6){
@@ -91,15 +103,16 @@ public class Robot {
 
         // On fait la même chose qu'au dessus mais à gauche du robot
         for (int i = x - 1; i >= 0; i--) {
-            if (robots[i][y] != null || (walls[i][y] != null && (walls[i][y].getOrientation() == Orientation.EAST || walls[i][y].getOrientation() == Orientation.WEST))){
+            if (walls[x][y] != null && (walls[x][y].getOrientation() == Orientation.WEST)){
+                break;
+            }
+            else if (robots[i][y] != null || (walls[i][y] != null && (walls[i][y].getOrientation() == Orientation.EAST || walls[i][y].getOrientation() == Orientation.WEST))){
                 if (robots[i][y] == null && walls[i][y] != null && walls[i][y].getOrientation() == Orientation.WEST){
                     moves.add(new Position(i, y));
-                    System.out.println(walls[i][y].getOrientation() + "  " + Orientation.SOUTH);
                     break;
                 }
                 else if (robots[i][y] == null && walls[i][y]!= null && walls[i][y].getOrientation() == Orientation.EAST){
                     moves.add(new Position(i + 1 , y));
-                    System.out.println(walls[i][y].getOrientation() + "  " + Orientation.SOUTH + "oui");
                     break;
                 }else{
                     moves.add(new Position(i + 1 , y));
@@ -122,10 +135,21 @@ public class Robot {
 
         // On fait la même chose qu'au dessus mais en bas du robot
         for (int j = y + 1; j < 16; j++) {
-            if (robots[x][j] != null){
-                moves.add(new Position(x , j - 1));
+            if (walls[x][y] != null && (walls[x][y].getOrientation() == Orientation.SOUTH)){
                 break;
-
+            }
+            else if (robots[x][j] != null || (walls[x][j] != null && (walls[x][j].getOrientation() == Orientation.NORTH || walls[x][j].getOrientation() == Orientation.SOUTH))){
+                if (robots[x][j] == null && walls[x][j] != null && walls[x][j].getOrientation() == Orientation.SOUTH){
+                    moves.add(new Position(x, j));
+                    break;
+                }
+                else if (robots[x][j] == null && walls[x][j]!= null && walls[x][j].getOrientation() == Orientation.NORTH){
+                    moves.add(new Position(x , j - 1));
+                    break;
+                }else{
+                    moves.add(new Position(x , j-1));
+                    break;
+                }
             }else{
                 if ((x == 7 || x == 8) && (y <= 6)){
                     if (j == 6) {
@@ -140,10 +164,25 @@ public class Robot {
         }
 
         // On fait la même chose qu'au dessus mais en haut du robot
-        for (int j = y - 1; j >= 0; j--) {
-            if (robots[x][j] != null){
-                moves.add(new Position(x , j + 1));
+        for (int j = y-1; j >= 0; j--) {
+            if (walls[x][y] != null && (walls[x][y].getOrientation() == Orientation.NORTH)){
                 break;
+            }
+            else if (robots[x][j] != null || (walls[x][j] != null && (walls[x][j].getOrientation() == Orientation.NORTH || walls[x][j].getOrientation() == Orientation.SOUTH))){
+                if (walls[x][y] != null && walls[x][y].getOrientation() == Orientation.NORTH){
+                    break;
+                }
+                else if (robots[x][j] == null && walls[x][j] != null && walls[x][j].getOrientation() == Orientation.SOUTH){
+                    moves.add(new Position(x, j+1));
+                    break;
+                }
+                else if (robots[x][j] == null && walls[x][j]!= null && walls[x][j].getOrientation() == Orientation.NORTH ){
+                    moves.add(new Position(x , j ));
+                    break;
+                }else{
+                    moves.add(new Position(x , j + 1));
+                    break;
+                }
             }else {
                 if ((x == 7 || x == 8) && (y >= 9)) {
                     if (j == 9){

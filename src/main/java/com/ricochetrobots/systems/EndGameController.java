@@ -48,16 +48,20 @@ public class EndGameController {
     private void displayWinner(){
         if (players.size() == 1) winner.setText(players.get(0).getName() + " est le grand vainqueur !");
         else{
-            if (players.get(0).getScore() > players.get(1).getScore())
+            if (players.get(0).getScore() > players.get(1).getScore()) {
                 winner.setText(players.get(0).getName() + " est le grand vainqueur !");
-            else winner.setText(players.get(1).getName() + " est le grand vainqueur !");
+                muscleText.setText("Muscle ton jeu " + players.get(1).getName() + " !");
+            }
+            else {
+                winner.setText(players.get(1).getName() + " est le grand vainqueur !");
+                muscleText.setText("Muscle ton jeu " + players.get(0).getName() + " !");
+            }
         }
     }
 
     private void displayBottomOnePlayer(){
         if (players.size() >= 2){
             easyGame.setVisible(false);
-            muscleText.setVisible(false);
         }else{
             muscleText.setText("Muscle ton jeu " + players.get(0).getName() + " !");
         }

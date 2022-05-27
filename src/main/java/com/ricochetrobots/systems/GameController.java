@@ -119,7 +119,7 @@ public class GameController {
         }
 
         // On ajoute les 16 tokens sur le plateau
-       /* addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
+        /* addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
@@ -136,7 +136,7 @@ public class GameController {
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);*/
 
-        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
+        /*addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 15, 14);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 4, 15);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 3, 15);
@@ -151,11 +151,28 @@ public class GameController {
         addTokenToGrid(ColorRobot.RED, Pattern.SUN, 15, 1);
         addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 15, 0);
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 15, 15);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 0, 15);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 0, 15);*/
+
+        addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 2, 5);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 1, 13);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.PLANET, 3, 9);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 4, 2);
+        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 4, 14);
+        addTokenToGrid(ColorRobot.RED, Pattern.SUN, 5, 7);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 6, 1);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.STAR, 6, 12);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.SUN, 9, 4);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 9, 13);
+        addTokenToGrid(ColorRobot.BLUE, Pattern.MOON, 10, 6);
+        addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 11, 9);
+        addTokenToGrid(ColorRobot.RED, Pattern.STAR, 13, 1);
+        addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 13, 14);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 14, 3);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 13, 10);
 
         // On met en place les murs
-        addWallToBoard(Orientation.EAST, 0,4);
-        addWallToBoard(Orientation.EAST, 0,10);
+        addWallToBoard(Orientation.EAST, 0,3);
+        addWallToBoard(Orientation.EAST, 0,9);
         addWallToBoard(Orientation.EAST, 2,5);
         addWallToBoard(Orientation.NORTH, 3,5);
         addWallToBoard(Orientation.WEST, 1,14);
@@ -164,8 +181,8 @@ public class GameController {
         addWallToBoard(Orientation.SOUTH, 2,9);
         addWallToBoard(Orientation.SOUTH, 4,0);
         addWallToBoard(Orientation.SOUTH, 10,0);
-        addWallToBoard(Orientation.SOUTH, 15,4);
-        addWallToBoard(Orientation.SOUTH, 15,11);
+        addWallToBoard(Orientation.EAST, 15,4);
+        addWallToBoard(Orientation.EAST, 15,11);
         addWallToBoard(Orientation.SOUTH, 1,15);
         addWallToBoard(Orientation.SOUTH, 11,15);
         addWallToBoard(Orientation.SOUTH, 3,2);
