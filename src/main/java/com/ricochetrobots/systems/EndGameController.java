@@ -51,8 +51,10 @@ public class EndGameController {
             if (players.get(0).getScore() > players.get(1).getScore()) {
                 winner.setText(players.get(0).getName() + " est le grand vainqueur !");
                 muscleText.setText("Muscle ton jeu " + players.get(1).getName() + " !");
-            }
-            else {
+            }else if (players.get(0).getScore() == players.get(1).getScore()){
+                winner.setText("Egalité parfaite !");
+                muscleText.setText("Faut régler ça à la bagarre maintenant !");
+            }else {
                 winner.setText(players.get(1).getName() + " est le grand vainqueur !");
                 muscleText.setText("Muscle ton jeu " + players.get(0).getName() + " !");
             }
