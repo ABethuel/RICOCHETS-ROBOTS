@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" styleClass="background_guide" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ricochetrobots.systems.MenuViewController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+   <children>
+      <Text layoutX="543.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guide de Ricochets Robots">
+         <font>
+            <Font name="Bernard MT Condensed" size="30.0" />
+         </font>
+      </Text>
+      <Text layoutX="459.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L’objectif est d’amener le robot qui a la couleur de l’objectif sur la case objectif sur le plateau en effectuant le moins de déplacement. " wrappingWidth="479.44842529296875">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Text layoutX="459.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour ce faire, on peut déplacer n’importe lequel des robots. Lorsque l’on avance un robot, il ne peut s’arrêter que lorsqu’il rencontre un obstacle (mur, bord du plateau, plaque centrale, autre robot)." wrappingWidth="469.91448974609375">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Text layoutX="462.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L’action de déplacer un robot horizontalement ou verticalement compte pour1, quel que soit le nombre de cases qu’il parcourt." wrappingWidth="459.24786376953125">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Text layoutX="461.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quand on a trouvé une solution, on indique le nombre de déplacement nécessaire." wrappingWidth="448.5811462402344">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Text layoutX="456.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Le joueur avec le plus petit nombre de déplacements montre sa solution. Si sa solution est correcte, il empoche le jeton Objectif en jeu. " wrappingWidth="468.13671875">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Button fx:id="guidePage" alignment="TOP_CENTER" blendMode="GREEN" cache="true" layoutX="635.0" layoutY="464.0" mnemonicParsing="false" onAction="#onGuideClick" prefHeight="38.0" prefWidth="146.0" text="Play !" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+         <font>
+            <Font name="System Bold Italic" size="25.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <Blend mode="OVERLAY" />
+         </effect>
+      </Button>
+      <Text layoutX="562.0" layoutY="557.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Et que le sors vous soit favorable">
+         <font>
+            <Font name="Bernard MT Condensed" size="25.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

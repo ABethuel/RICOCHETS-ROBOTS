@@ -17,4 +17,21 @@ public class MenuViewController {
         MainApplication.stage.setScene(scene);
         MainApplication.stage.show();
     }
+
+    public void onGuideClick(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("players-view.fxml"));
+        //Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 722, 472);
+        MainApplication.stage.setScene(scene);
+        MainApplication.stage.show();
+    }
+
+    public void goGuideClick(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("guide-game.fxml"));
+        //Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+        MainApplication.stage.setScene(scene);
+        MainApplication.stage.show();
+    }
+
 }
