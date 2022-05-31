@@ -15,7 +15,7 @@
 
     </stylesheets>
    <children>
-      <Button fx:id="startButton" alignment="TOP_CENTER" blendMode="GREEN" cache="true" layoutX="441.0" layoutY="495.0" mnemonicParsing="false" onAction="#onStartClick" prefHeight="32.0" prefWidth="118.0" text="START GAME" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+      <Button fx:id="startButton" alignment="TOP_CENTER" blendMode="GREEN" cache="true" layoutX="374.0" layoutY="495.0" mnemonicParsing="false" onAction="#onStartClick" prefHeight="32.0" prefWidth="118.0" text="START GAME" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
@@ -36,6 +36,17 @@
             <Font name="System Bold Italic" size="23.0" />
          </font>
       </Label>
+      <Button fx:id="startButton1" alignment="TOP_CENTER" blendMode="GREEN" cache="true" layoutX="523.0" layoutY="495.0" mnemonicParsing="false" onAction="#goGuideClick" prefHeight="32.0" prefWidth="118.0" text="Games Rules" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <Blend mode="OVERLAY" />
+         </effect>
+      </Button>
    </children>
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />

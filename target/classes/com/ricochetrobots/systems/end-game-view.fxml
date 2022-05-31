@@ -50,12 +50,12 @@
             </Label>
          </children>
       </HBox>
-      <Label fx:id="easyGame" layoutX="271.0" layoutY="400.0" text="J'ai envie de dire facile quand on est seul à jouer" textFill="#eeff00">
+      <Label fx:id="easyGame" layoutX="266.0" layoutY="409.0" text="J'ai envie de dire facile quand on est seul à jouer !" textFill="#eeff00">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" layoutX="330.0" layoutY="413.0" prefHeight="40.0" prefWidth="197.0">
+      <HBox alignment="CENTER" layoutX="239.0" layoutY="421.0" prefHeight="40.0" prefWidth="392.0">
          <children>
             <Label fx:id="muscleText" text="Muscle ton jeu Robert !" textFill="#eeff00">
                <font>
