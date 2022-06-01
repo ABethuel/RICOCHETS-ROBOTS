@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
 
 public class Game {
 
@@ -20,9 +21,9 @@ public class Game {
     private List<Player> players;
     private int numberOfShotsExpected;
     private int scoreToReach;
+    private Timer chrono = new Timer();
+    private boolean timerOn = true;
 
-    private String colorGame;
-    private String patternGame;
     private Token targetToken;
 
     private int numberOfMoves = 0;
@@ -34,8 +35,6 @@ public class Game {
         this.gameController = gameController;
         this.players = players;
         this.scoreToReach = scoreToReach;
-        setColorGame();
-        setPatternGame();
     }
 
     public Robot[][] getBoard() {
@@ -84,8 +83,12 @@ public class Game {
             }else if (n2 < n1 && n2 != 0){
                 setNumberOfShotsExpected(n2);
                 setPlayerTurn(players.get(1));
+            }else if (n2 == n1){
+                setNumberOfShotsExpected(n2);
+                setPlayerTurn(players.get(1));
             }
         }
+
         gameController.maxNumberOfShotsLabel.setVisible(true);
         gameController.maxNumberOfShotsLabel.setText("Coups maximums pour atteindre la cible : " + numberOfShotsExpected);
         return numberOfShotsExpected;
@@ -106,6 +109,18 @@ public class Game {
 
     public int getScoreToReach() {
         return scoreToReach;
+    }
+
+    public Timer getChrono() {
+        return chrono;
+    }
+
+    public boolean isTimerOn() {
+        return timerOn;
+    }
+
+    public void setTimerOn(boolean timerOn) {
+        this.timerOn = timerOn;
     }
 
     // Quand on clique sur le plateau de jeu. On vérifier qu'il y a bien un robot ici.
@@ -159,14 +174,6 @@ public class Game {
         gameController.updateScreen();
    }
 
-   public boolean hasObstacleAt(int x, int y, Robot[][] robots) {
-        if (isInBoard(x, y)){
-            System.out.println("Obstacle x = " + x + "  y = " + y);
-            return robots[y][x] != null;
-        }
-        else return false;
-   }
-
    private void movePiece(Position from, Position to, Robot[][] robots ) throws IOException {
         robots[to.getY()][to.getX()] = robots[from.getY()][from.getX()];
         robots[from.getY()][from.getX()] = null;
@@ -174,53 +181,6 @@ public class Game {
         robots[to.getY()][to.getX()].setPosition(to.getY(), to.getX(), getNumberOfMoves(), gameController.getTokens());
         update(robots);
         gameController.clearPossibleMoves();
-   }
-
-   // On définit au hasard la couleur du jeton cible
-   public void randomColorGame(){
-        Random random = new Random();
-        int color = random.nextInt(4);
-        switch(color){
-            case 0 -> colorGame = "R";
-            case 1 -> colorGame = "G";
-            case 2 -> colorGame = "B";
-            case 3 -> colorGame = "Y";
-        }
-   }
-
-   // On définit au hasard le motif du jeton cible
-   public void randomPatternGame(){
-        Random random = new Random();
-        int pattern = random.nextInt(4);
-        switch(pattern){
-            case 0 -> patternGame = "M";
-            case 1 -> patternGame = "P";
-            case 2 -> patternGame = "ST";
-            case 3 -> patternGame = "SU";
-        }
-   }
-
-   public String getColorGame() {
-        return colorGame;
-    }
-
-   public void setColorGame() {
-        randomColorGame();
-   }
-
-   public String getPatternGame() {
-        return patternGame;
-    }
-
-   public void setPatternGame() {
-        randomPatternGame();
-   }
-
-   // On récupère une chaine de caractère du jeton cible
-   public String getSignatureTargetToken() {
-       String target = getPatternGame();
-       String color = getColorGame();
-       return color + "_" + target;
    }
 
    // On définit le jeton cible
@@ -239,25 +199,7 @@ public class Game {
                 defineTarget(robots);
             }
         }
-        /*for (int i = 0; i<16; i++){
-           for (int j = 0; j<16; j++){
-               if (gameController.getTokens()[i][j] != null) {
-                   Token token = gameController.getTokens()[i][j];
-                   if (gameController.tokenList.contains(token)) {
-                       if (token.getName().equals(getSignatureTargetToken()) && gameController.tokenList.contains(token) && robots[i][j] == null && !token.getName().equals(previousToken)) {
-                           this.targetToken = token;// Si les noms correspondent, on définit la cible
-                           this.targetToken.setTarget(true);
-                           System.out.println("On définit la cible");
-                           System.out.println("Cible : " + targetToken.getName());
-                       } else if (token.getName().equals(getSignatureTargetToken()) && !gameController.tokenList.contains(token)) {
-                           randomPatternGame();
-                           randomColorGame();
-                       }
-                   }
-               }
-           }
-       }*/
-   }
+    }
 
     public Token getTargetToken(){
         return targetToken;
@@ -278,6 +220,7 @@ public class Game {
                         endgameScreen();
                         setNumberOfMoves(0);  // On incrémente le nombre de coups
                         updateGridAfterWin(robots, targetToken, i, j);
+                        setTimerOn(true);
                         gameController.validateShotsButton.setDisable(false);
                         gameController.textFieldPlayer2.setDisable(false);
                         gameController.textFieldPlayer1.setDisable(false);
@@ -297,12 +240,11 @@ public class Game {
         targetToken.setTarget(false);
         gameController.clearToken(j,i, targetToken); // On enlève le jeton trouvé de la grille
         gameController.tokenList.remove(targetToken);
-        randomPatternGame();
-        randomColorGame();
         defineTarget(robots);
         gameController.setCenterTargetImages();
         setGameWon(false);
         gameController.maxNumberOfShotsLabel.setVisible(false);
+        gameController.gridPane.setOpacity(0.8);
     }
 
     public void updateGridAfterLoss(Robot[][] robots){
@@ -318,6 +260,7 @@ public class Game {
         gameController.addRobotToBoard(ColorRobot.GREEN);
         gameController.addRobotToBoard(ColorRobot.BLUE);
         gameController.addRobotToBoard(ColorRobot.YELLOW);
+        setTimerOn(true);
 
         gameController.validateShotsButton.setDisable(false);
         gameController.textFieldPlayer2.setDisable(false);
@@ -325,6 +268,8 @@ public class Game {
         gameController.textFieldPlayer2.setText("0");
         gameController.textFieldPlayer1.setText("0");
         gameController.gridPane.setDisable(true);
+        gameController.gridPane.setOpacity(0.8);
+
     }
 
     public void endgameScreen() throws IOException {

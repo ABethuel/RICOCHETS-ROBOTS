@@ -48,6 +48,8 @@ public class GameController {
     public Label scoreToReachLabel;
     public Label numberOfShotsPlayedLabel;
     public Label maxNumberOfShotsLabel;
+    public Label timerLabel;
+    public VBox vBoxTimer;
 
     private Robot[][] robots = new Robot[16][16];
     private Token[][] tokens = new Token[16][16];
@@ -417,13 +419,10 @@ public class GameController {
     }
 
     public void validateShotsOnClick(ActionEvent actionEvent) {
-        gridPane.setDisable(false);
         game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2);
-        System.out.println("Coups attendus : " + game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2));
-
-        textFieldPlayer2.setDisable(true);
-        textFieldPlayer1.setDisable(true);
-        validateShotsButton.setDisable(true);
+        if (game.isTimerOn()){
+            game.getChrono().schedule(new CustomTimer(20, this, game), 0, 1000);
+        }
     }
 
     @FXML
