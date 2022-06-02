@@ -53,9 +53,11 @@ public class Game {
 
     public void setGameWon(boolean gameWon) {
         isGameWon = gameWon;
-        getPlayerTurn().setScore(getPlayerTurn().getScore() + 1);
-        setNumberOfMoves(0);  // On rénitialise le nombre de coups
-        setTimerOn(true);
+        if (isGameWon()){
+            getPlayerTurn().setScore(getPlayerTurn().getScore() + 1);
+            setNumberOfMoves(0);  // On rénitialise le nombre de coups
+            setTimerOn(true);
+        }
     }
 
     public List<Player> getPlayers() {
@@ -272,7 +274,7 @@ public class Game {
                 MainApplication.stage.show();
             }
         }else{
-            if (players.get(0).getScore() + players.get(1).getScore() == getScoreToReach()){
+            if (players.get(0).getScore() + players.get(1).getScore() >= getScoreToReach()){
                 MainApplication.stage.setUserData(players);
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("end-game-view.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 850, 600);
