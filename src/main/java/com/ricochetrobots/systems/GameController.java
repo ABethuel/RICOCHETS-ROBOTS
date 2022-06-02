@@ -170,7 +170,7 @@ public class GameController {
         addTokenToGrid(ColorRobot.RED, Pattern.STAR, 13, 1);
         addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 13, 14);
         addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 14, 3);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 13, 10);
+        addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 14, 10);
 
         // On met en place les murs
         addWallToBoard(Orientation.EAST, 0,3);
@@ -421,7 +421,7 @@ public class GameController {
     public void validateShotsOnClick(ActionEvent actionEvent) {
         game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2, this);
         if (game.isTimerOn()){
-            game.getChrono().schedule(new CustomTimer(20, this, game), 0, 1000);
+            game.getChrono().schedule(new CustomTimer(10, this, game), 0, 1000);
         }
     }
 
