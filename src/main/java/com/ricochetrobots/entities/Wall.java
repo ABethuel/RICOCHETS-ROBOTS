@@ -3,26 +3,18 @@ package com.ricochetrobots.entities;
 import com.ricochetrobots.components.Orientation;
 
 public class Wall {;
-    private int col;
-    private int lig;
-    private Orientation orientation;
+    private final int col;
+    private final int lig;
+    private final Orientation orientation;
     public Wall(int col, int lig, Orientation a){
         this.orientation=a;
         this.col=col;
         this.lig=lig;
     }
 
+
     public Orientation getOrientation() {
         return orientation;
-    }
-
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
-    }
-
-    public void setWallPosition (int lig, int col){
-        this.lig = lig;
-        this.col = col;
     }
 
     public int getCol() {
@@ -37,7 +29,5 @@ public class Wall {;
         String className = getClass().getSimpleName().toLowerCase();
         return getOrientation().toString() + "_" +  className;
     }
-
-
 }
 

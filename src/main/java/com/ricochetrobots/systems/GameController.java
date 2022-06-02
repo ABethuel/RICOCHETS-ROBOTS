@@ -60,7 +60,7 @@ public class GameController {
     private String colorTargetText;
     private String patternTargetText;
 
-    private Game game = new Game(this, players, scoreToReach);
+    private Game game = new Game(players, scoreToReach);
     public int numberOfShotsPlayer1;
     public int numberOfShotsPlayer2;
     public  Player playerTurn;
@@ -111,7 +111,7 @@ public class GameController {
                     this.gridPane.add(pane, i, j);
                     pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                         try {
-                            game.onRobotClick(finalJ, finalI, this.robots, this.walls);
+                            game.onRobotClick(finalJ, finalI, this.robots, this.walls, this);
                         } catch (IOException ioException) {
                             ioException.printStackTrace();
                         }
@@ -217,7 +217,7 @@ public class GameController {
         addWallToBoard(Orientation.WEST, 13,15);
 
         // On définit le jeton cible
-        game.defineTarget(robots);
+        game.defineTarget(robots, this);
 
         // On ajoute les robots
         addRobotToBoard(ColorRobot.RED);
@@ -232,7 +232,7 @@ public class GameController {
 
     // Méthode pour ajouter les robots sur le plateau
     public void addRobotToBoard(ColorRobot color){
-        Robot robot = new Robot(color, this);
+        Robot robot = new Robot(color, getTokens());
         this.robots[robot.getLig()][robot.getCol()] = robot;
         setRobot(robot.getLig(), robot.getCol(), robot);
     }
@@ -419,7 +419,7 @@ public class GameController {
     }
 
     public void validateShotsOnClick(ActionEvent actionEvent) {
-        game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2);
+        game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2, this);
         if (game.isTimerOn()){
             game.getChrono().schedule(new CustomTimer(20, this, game), 0, 1000);
         }

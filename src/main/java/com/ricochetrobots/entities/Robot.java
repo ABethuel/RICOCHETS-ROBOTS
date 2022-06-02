@@ -16,14 +16,12 @@ public class Robot {
     protected boolean hasMoved;
     private int col;
     private int lig;
-    private final GameController gameController;
 
-    public Robot(ColorRobot color, GameController gameController) {
+    public Robot(ColorRobot color, Token[][] tokens) {
         this.color = color;
         this.hasMoved = false;
         Random random = new Random();
-        this.gameController = gameController;
-        setPosition( random.nextInt(16), random.nextInt(16), 0, gameController.getTokens());
+        setPosition( random.nextInt(16), random.nextInt(16), 0, tokens);
     }
 
     // On récupère le nom de l'image correspondant au robot
@@ -66,7 +64,7 @@ public class Robot {
     }
 
     // On définit les zones où peuvent se déplacer les robots
-    public List<Position> getPossibleMoves(Game game, Robot[][] robots, Wall[][] walls) {
+    public List<Position> getPossibleMoves(Robot[][] robots, Wall[][] walls) {
         List<Position> moves = new ArrayList<>();
         int x = getLig();
         int y = getCol();

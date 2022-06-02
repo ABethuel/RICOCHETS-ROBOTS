@@ -8,8 +8,8 @@ import java.util.Random;
 public class Token {
     protected ColorRobot color;
     protected Pattern pattern;
-    private int col;
-    private int lig;
+    private final int col;
+    private final int lig;
     private boolean isTarget;
 
     public Token(ColorRobot color, Pattern pattern, int col, int lig) {
@@ -43,11 +43,6 @@ public class Token {
 
     public String getName(){
         return getColor().toString() + "_" + getPattern().toString();
-    }
-
-    public void setPosition(int lig, int col) {
-        this.lig = lig;
-        this.col = col;
     }
 
     public boolean isTarget() {

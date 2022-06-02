@@ -27,7 +27,7 @@ public class CustomTimer extends TimerTask {
             if (timer == 0){
                 gameController.gridPane.setDisable(false);
                 gameController.gridPane.setOpacity(1);
-                System.out.println("Coups attendus : " + game.getNumberOfShotsExpected(gameController.numberOfShotsPlayer1, gameController.numberOfShotsPlayer2));
+                System.out.println("Coups attendus : " + game.getNumberOfShotsExpected(gameController.numberOfShotsPlayer1, gameController.numberOfShotsPlayer2, gameController));
                 gameController.textFieldPlayer2.setDisable(true);
                 gameController.textFieldPlayer1.setDisable(true);
                 gameController.validateShotsButton.setDisable(true);
