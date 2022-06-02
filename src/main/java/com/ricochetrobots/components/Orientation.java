@@ -6,6 +6,7 @@ public enum Orientation {
     EAST,
     WEST;
 
+    // On attribue une lettre pour chaque orientation
     public String toString() {
         String orientation = "";
         if (this == NORTH){

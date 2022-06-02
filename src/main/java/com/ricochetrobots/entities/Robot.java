@@ -35,10 +35,6 @@ public class Robot {
         this.hasMoved = true;
     }
 
-    public boolean hasMoved() {
-        return hasMoved;
-    }
-
     public int getCol() {
         return col;
     }
@@ -71,7 +67,7 @@ public class Robot {
 
         // On navigue à droite du robot
         for (int i = x + 1; i < 16; i++) {
-            if (walls[x][y] != null && (walls[x][y].getOrientation() == Orientation.EAST)){
+            if (walls[x][y] != null && (walls[x][y].getOrientation() == Orientation.EAST)){ // S'il y a un mur sur la position du joueur on stop la boucle
                 break;
             }
             else if (robots[i][y] != null || (walls[i][y] != null && (walls[i][y].getOrientation() == Orientation.EAST || walls[i][y].getOrientation() == Orientation.WEST))){  // S'il y a un robot ou un mur sur la route du robot

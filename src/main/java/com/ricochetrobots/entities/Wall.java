@@ -25,6 +25,7 @@ public class Wall {;
         return lig;
     }
 
+    // Image
     public String getImageSignature() {
         String className = getClass().getSimpleName().toLowerCase();
         return getOrientation().toString() + "_" +  className;

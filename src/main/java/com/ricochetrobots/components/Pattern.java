@@ -6,6 +6,7 @@ public enum Pattern {
     STAR,
     SUN;
 
+    // On attribue une lettre pour chaque motif
     @Override
     public String toString() {
         String pattern = "";

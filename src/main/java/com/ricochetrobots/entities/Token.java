@@ -3,8 +3,6 @@ package com.ricochetrobots.entities;
 import com.ricochetrobots.components.ColorRobot;
 import com.ricochetrobots.components.Pattern;
 
-import java.util.Random;
-
 public class Token {
     protected ColorRobot color;
     protected Pattern pattern;
@@ -36,6 +34,7 @@ public class Token {
         return lig;
     }
 
+    // Nom de l'image
     public String getImageSignature() {
         String className = getClass().getSimpleName().toLowerCase();
         return getColor().toString() + "_" + getPattern().toString() + "_" +  className;

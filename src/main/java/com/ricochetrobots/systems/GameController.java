@@ -120,24 +120,6 @@ public class GameController {
             }
         }
 
-        // On ajoute les 16 tokens sur le plateau
-        /* addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 5, 2);
-        addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 7, 4);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 2, 5);
-        addTokenToGrid(ColorRobot.YELLOW, Pattern.MOON, 2, 6);
-        addTokenToGrid(ColorRobot.RED, Pattern.STAR, 1, 10);
-        addTokenToGrid(ColorRobot.BLUE, Pattern.MOON, 3, 11);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.PLANET, 4, 11);
-        addTokenToGrid(ColorRobot.YELLOW, Pattern.SUN, 6, 13);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 12, 1);
-        addTokenToGrid(ColorRobot.RED, Pattern.MOON, 14, 4);
-        addTokenToGrid(ColorRobot.BLUE, Pattern.PLANET, 11, 6);
-        addTokenToGrid(ColorRobot.YELLOW, Pattern.STAR, 9, 3);
-        addTokenToGrid(ColorRobot.RED, Pattern.SUN, 14, 12);
-        addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 13, 9);
-        addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 10, 10);
-        addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 11, 14);*/
-
         /*addTokenToGrid(ColorRobot.RED, Pattern.PLANET, 15, 6);
         addTokenToGrid(ColorRobot.BLUE, Pattern.SUN, 15, 14);
         addTokenToGrid(ColorRobot.GREEN, Pattern.STAR, 4, 15);
@@ -155,6 +137,7 @@ public class GameController {
         addTokenToGrid(ColorRobot.YELLOW, Pattern.PLANET, 15, 15);
         addTokenToGrid(ColorRobot.GREEN, Pattern.MOON, 0, 15);*/
 
+        // On ajoute les 16 tokens sur le plateau
         addTokenToGrid(ColorRobot.BLUE, Pattern.STAR, 2, 5);
         addTokenToGrid(ColorRobot.GREEN, Pattern.SUN, 1, 13);
         addTokenToGrid(ColorRobot.BLUE, Pattern.PLANET, 3, 9);
@@ -225,9 +208,9 @@ public class GameController {
         addRobotToBoard(ColorRobot.BLUE);
         addRobotToBoard(ColorRobot.YELLOW);
 
+        // Image du centre
         setCenterTargetImages();
         updateScreen();
-
     }
 
     // Méthode pour ajouter les robots sur le plateau
@@ -241,7 +224,6 @@ public class GameController {
     public void setRobot(int x, int y, Robot robot) {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(2);
         imageRobot.setImage(new Image(urlImage + robot.getImageSignature() + ".png", 35, 35, false, true));
-        //imageRobot.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> game.onRobotClick(y, x, this.robots));
     }
 
     // S'il n'y a pas de robot, on l'efface
@@ -275,6 +257,7 @@ public class GameController {
         }
     }
 
+    // On ajoute le jeton sur la grille
     public void addTokenToGrid(ColorRobot color, Pattern pattern, int x, int y){
         Token token = new Token(color, pattern, x, y);
         this.tokens[token.getLig()][token.getCol()] = token;
@@ -282,6 +265,7 @@ public class GameController {
         tokenList.add(token);
     }
 
+    // On définit le jeton graphiquement
     public void setToken(int x, int y, Token token) {
         ImageView imageRobot = (ImageView) board[x][y].getChildren().get(1);
         imageRobot.setImage(new Image(urlImage + "/tokens/" + token.getImageSignature() + ".png", 28,28, true, true));
@@ -316,6 +300,7 @@ public class GameController {
         return targetToken;
     }
 
+    // On place l'image du jeton cible au centre
     public void setCenterTargetImages(){
         for (int i = 0 ; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
@@ -345,6 +330,7 @@ public class GameController {
         }
     }
 
+    // Paramètres pour le texte en haut
     public String getColorTargetText(){
         for (int i = 0; i<16; i++){
             for (int j = 0; j<16; j++){
@@ -365,6 +351,7 @@ public class GameController {
         return colorTargetText;
     }
 
+    // Paramètres pour le texte en haut
     public String getPatternTargetText(){
         for (int i = 0; i<16; i++){
             for (int j = 0; j<16; j++){
@@ -385,6 +372,7 @@ public class GameController {
         return patternTargetText;
     }
 
+    // Texte en haut
     public void setTargetSentenceText(){
         String color = getColorTargetText();
         String pattern = getPatternTargetText();
@@ -406,27 +394,32 @@ public class GameController {
 
     }
 
+    // On ajoute les murs
     public void addWallToBoard(Orientation orientation, int x, int y){
         Wall wall = new Wall(x,y,orientation );
         this.walls[wall.getLig()][wall.getCol()] = wall;
         setWall(wall.getLig(), wall.getCol(), wall);
     }
 
-    // On définit le robot
+    // On définit graphiquement les murs
     public void setWall(int x, int y, Wall wall) {
         ImageView imageWall = (ImageView) board[x][y].getChildren().get(3);
         imageWall.setImage(new Image(urlImage +"Wall/" + wall.getImageSignature() + ".png", 37.5, 37.5, false, true));
     }
 
+    // Bouton valider le nombre de coups
     public void validateShotsOnClick(ActionEvent actionEvent) {
         game.getNumberOfShotsExpected(numberOfShotsPlayer1, numberOfShotsPlayer2, this);
         if (game.isTimerOn()){
-            game.getChrono().schedule(new CustomTimer(10, this, game), 0, 1000);
+            game.getChrono().schedule(new CustomTimer(10, this, game), 0, 1000); // On lance le timer
         }
     }
 
+    // Nombre de coups
     @FXML
     public void onSetNumber() {
+
+        // Si on ne rentre pas un nombre, on supprime ce qui vient d'être écrit
         textFieldPlayer1.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -450,6 +443,7 @@ public class GameController {
         numberOfShotsPlayer2 = Integer.parseInt(textFieldPlayer2.getText());
     }
 
+    // On n'affiche pas les données du deuxième joueur si jeu en solo
     private void setVisibilityHBox(){
         if (players.size() == 1){
             hBoxPlayer2.setVisible(false);

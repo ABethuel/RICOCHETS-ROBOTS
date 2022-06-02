@@ -71,12 +71,14 @@ public class PlayersController {
         this.namePlayer2 = namePlayer2;
     }
 
+    // Choix du nombre de joueur
     private void loadChoiceBox(){
         list.removeAll();
         list.addAll("1", "2");
         choiceNumberOfPlayers.getItems().addAll(list);
     }
 
+    // On valide le nombre de joueur (1 ou 2)
     public void validateNumberOnClick(ActionEvent actionEvent) {
         setNumberOfPlayers(Integer.parseInt(choiceNumberOfPlayers.getValue()));
         if (getNumberOfPlayers() == 1){
@@ -107,11 +109,12 @@ public class PlayersController {
                 MainApplication.stage.setScene(scene);
                 MainApplication.stage.show();
             }
-        }else {
+        }else { // Si l'on n'a pas rentré score atteignable un texte d'alerte s'affiche
             textWarningScore.setVisible(true);
         }
     }
 
+    // On ajoute un joueur
     private void newPlayer(Player player){
         players.add(player);
     }

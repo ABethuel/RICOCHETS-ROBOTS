@@ -30,17 +30,16 @@ public class MainApplication extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-
     }
 
-        MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer;
 
-        public void music() {
+    public void music() {
 
-            String s = "assets/musicDuJeu.mp3";
-            Media h = new Media(Paths.get(s).toUri().toString());
-            mediaPlayer = new MediaPlayer(h);
-            mediaPlayer.play();
+        String s = "assets/musicDuJeu.mp3";
+        Media h = new Media(Paths.get(s).toUri().toString());
+        mediaPlayer = new MediaPlayer(h);
+        mediaPlayer.play();
     }
 
     public static void main(String[] args) {

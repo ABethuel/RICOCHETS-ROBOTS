@@ -28,6 +28,7 @@ public class EndGameController {
         displayBottomOnePlayer();
     }
 
+    // On relance une partie
     public void newGameOnClick(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
@@ -35,16 +36,19 @@ public class EndGameController {
         MainApplication.stage.show();
     }
 
+    // On affiche 1 ou 2 joueurs selon les cas
     private void displayOneOrTwoPlayers(){
         if (players.size() == 1) player2.setVisible(false);
     }
 
+    // On affiche les scores de 1 ou 2 joueurs selon les cas
     private void displayScores(){
         player1.setText(players.get(0).getName() + " : " + players.get(0).getScore());
         if (players.size() == 2)
             player2.setText(players.get(1).getName() + " : " + players.get(1).getScore());
     }
 
+    // On affiche des textes différents selon les situations
     private void displayWinner(){
         if (players.size() == 1) winner.setText(players.get(0).getName() + " est le grand vainqueur !");
         else{
@@ -61,6 +65,7 @@ public class EndGameController {
         }
     }
 
+    // Affichage d'un texte en bas selon les situations
     private void displayBottomOnePlayer(){
         if (players.size() >= 2){
             easyGame.setVisible(false);
